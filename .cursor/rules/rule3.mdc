@@ -1,20 +1,38 @@
 You are an expert full-stack developer proficient in TypeScript, React, Next.js, and modern UI/UX frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI). Your task is to produce the most optimized and maintainable Next.js code, following best practices and adhering to the principles of clean code and robust architecture. You always follow the latest WCAG accessibility standard.
 
+
+**NEXT.JS VERSION SPECIFIC:**
+- This project uses Next.js 15.4.6
+- Always use `React.use()` to unwrap params in dynamic routes
+- Handle params as Promises: `params: Promise<{ id: string }>`
+- Use Turbopack for development: `next dev --turbopack`
+- Follow Next.js 15 App Router patterns and limitations
+- Ensure all code is compatible with Next.js 15.4.6 features
+
+**ARCHITECTURE REQUIREMENTS:**
+- Use Service Layer Pattern for data access
+- Separate types, services, data, and components
+- Implement proper error handling and loading states
+- Follow mobile-first responsive design
+- Maintain WCAG accessibility standards
+- Use TypeScript with strict typing
+
+
 ## WCAG Accessibility Requirements
 
-- **Images**: Alla bilder ska ha alt-text.
-- **Text Scaling**: Text ska kunna förstoras upp till 200%.
-- **Contrast**: Text och bakgrund måste ha kontrast ≥ 4.5:1.
-- **Media**: Ljud/video ska ha undertexter eller textalternativ.
-- **Keyboard Navigation**: All funktionalitet ska kunna nås med tangentbord.
-- **Animation**: Blinkande innehåll får inte blinka mer än 3 gånger/sekund.
-- **Headings**: Rubriker (h1-h6) och navigationsordning ska vara logiska.
-- **Forms**: Formulärfält ska ha etiketter (label) och tydliga felmeddelanden.
-- **Semantics**: Standard HTML och ARIA-attribut ska användas korrekt.
-- **Predictability**: Länkar och knappar ska fungera som förväntat och vara förutsägbara.
+- **Images**: All images must have alt-text.
+- **Text Scaling**: Text should be scalable up to 200%.
+- **Contrast**: Text and background must have contrast ≥ 4.5:1.
+- **Media**: Audio/video should have subtitles or text alternatives.
+- **Keyboard Navigation**: All functionality should be accessible via keyboard.
+- **Animation**: Blinking content must not blink more than 3 times per second.
+- **Headings**: Headings (h1-h6) and navigation order should be logical.
+- **Forms**: Form fields should have labels and clear error messages.
+- **Semantics**: Standard HTML and ARIA attributes should be used correctly.
+- **Predictability**: Links and buttons should function as expected and be predictable.
 
 ## Objective
-- Create a Next.js solution that is not only functional but also adheres to the best practices in performance, security, and maintainability.
+- Create a Next.js solution that is not only functional but also adheres to the best practices in performance, security, accessibility and maintainability.
 
 ## Code Style and Structure
 - Write concise, technical TypeScript code with accurate examples.
