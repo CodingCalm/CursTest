@@ -2,9 +2,11 @@
 
 import React from "react";
 import { notFound } from "next/navigation";
-import { postService } from "@/services";
 import { Post } from "@/types";
 import Link from "next/link";
+import { VotingSection } from "@/components/VotingSection";
+import { PostMetadata, PostTitle, PostContent as PostContentComponent, PostActions } from "@/components/post";
+import { usePost } from "@/hooks";
 
 interface PostPageProps {
   params: Promise<{
@@ -14,37 +16,17 @@ interface PostPageProps {
 
 export default function PostPage({ params }: PostPageProps): React.JSX.Element {
   const resolvedParams = React.use(params);
-  const [post, setPost] = React.useState<Post | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    async function loadPost() {
-      try {
-        setLoading(true);
-        const postId = parseInt(resolvedParams.id);
-        if (isNaN(postId)) {
-          notFound();
-          return;
-        }
-        
-        const fetchedPost = await postService.getPostById(postId);
-        if (!fetchedPost) {
-          notFound();
-          return;
-        }
-        
-        setPost(fetchedPost);
-      } catch (err) {
-        setError('Kunde inte ladda inlägg');
-        console.error('Error loading post:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadPost();
-  }, [resolvedParams.id]);
+  const postId = parseInt(resolvedParams.id);
+  
+  if (isNaN(postId)) {
+    notFound();
+  }
+  
+  const { post, loading, error } = usePost(postId);
+  
+  if (!post && !loading) {
+    notFound();
+  }
 
   if (loading) {
     return (
@@ -108,167 +90,19 @@ function PostDetail({ post }: { post: Post }) {
   return (
     <article className="bg-white rounded-lg shadow-lg p-4 sm:p-6" role="article">
       <PostContent post={post} />
-      <VotingSection upvotes={post.upvotes} comments={post.comments} />
+      <VotingSection upvotes={post.upvotes} comments={post.comments} postId={post.id} showComments={false} />
     </article>
-  );
-}
-
-function VotingSection({ upvotes, comments }: { upvotes: number; comments: number }) {
-  const [localIsNominated, setLocalIsNominated] = React.useState(false);
-
-  const handleNomination = () => {
-    setLocalIsNominated(!localIsNominated);
-    console.log('Nominering toggled for post', !localIsNominated);
-  };
-
-  return (
-    <div className="flex flex-row items-center justify-between mt-4 pt-4 border-t border-gray-200" role="group" aria-label="Röstningssektion">
-      <div className="flex items-center gap-2">
-        <VoteButton 
-          direction="up" 
-          upvotes={upvotes} 
-          className="hover:text-orange-500 focus:ring-orange-500" 
-        />
-        <span className="text-sm font-bold text-gray-900 mx-2" aria-live="polite">
-          {upvotes}
-        </span>
-        <VoteButton 
-          direction="down" 
-          upvotes={upvotes} 
-          className="hover:text-blue-500 focus:ring-blue-500" 
-        />
-      </div>
-      <button 
-        className={`flex items-center gap-1 p-1 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 ${
-          localIsNominated 
-            ? 'text-green-600 hover:text-green-700' 
-            : 'text-gray-500 hover:text-gray-700'
-        }`}
-        aria-label={localIsNominated ? "Ta bort nominering" : "Nominera detta inlägg som proposition"}
-        onClick={handleNomination}
-      >
-        <svg 
-          className={`w-4 h-4 ${localIsNominated ? 'stroke-2' : 'stroke-1'}`} 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24" 
-          aria-hidden="true"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={localIsNominated ? 3 : 2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-        </svg>
-        <span className="text-xs">{localIsNominated ? "Nominerad" : "Nominera"}</span>
-      </button>
-    </div>
-  );
-}
-
-function VoteButton({ 
-  direction, 
-  upvotes, 
-  className 
-}: { 
-  direction: 'up' | 'down'; 
-  upvotes: number; 
-  className: string; 
-}) {
-  const isUpvote = direction === 'up';
-  const iconPath = isUpvote 
-    ? "M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-    : "M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z";
-
-  return (
-    <button 
-      className={`text-gray-400 p-1 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 ${className}`}
-      aria-label={`Rösta ${isUpvote ? 'upp' : 'ner'}. Just nu ${upvotes} röster`}
-      aria-pressed="false"
-    >
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-        <path fillRule="evenodd" d={iconPath} clipRule="evenodd" />
-      </svg>
-    </button>
   );
 }
 
 function PostContent({ post }: { post: Post }) {
   return (
     <div className="flex-1 min-w-0">
-      <PostMetadata author={post.author} timeAgo={post.timeAgo} />
-      <PostTitle title={post.title} />
-      <PostBody content={post.content} />
-      <PostActions post={post} />
+      <PostMetadata author={post.author} timeAgo={post.timeAgo} variant="detail" />
+      <PostTitle title={post.title} variant="detail" />
+      <PostContentComponent content={post.content} variant="detail" />
+      <PostActions variant="detail" />
     </div>
-  );
-}
-
-function PostMetadata({ author, timeAgo }: { author: string; timeAgo: string }) {
-  return (
-    <div className="flex flex-col xs:flex-row xs:items-center gap-1 xs:gap-2 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-      <span className="whitespace-nowrap">Postat av u/{author}</span>
-      <span className="hidden xs:inline" aria-hidden="true">•</span>
-      <time dateTime="2024-01-01" className="whitespace-nowrap">{timeAgo}</time>
-    </div>
-  );
-}
-
-function PostTitle({ title }: { title: string }) {
-  return (
-    <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-      {title}
-    </h1>
-  );
-}
-
-function PostBody({ content }: { content: string }) {
-  return (
-    <div className="prose prose-sm sm:prose-lg max-w-none mb-6">
-      <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-        {content}
-      </p>
-    </div>
-  );
-}
-
-function PostActions({ post }: { post: Post }) {
-  return null;
-}
-
-function ActionButton({ 
-  icon, 
-  label, 
-  shortLabel,
-  ariaLabel,
-  onClick,
-  isActive
-}: { 
-  icon: string; 
-  label: string; 
-  shortLabel: string;
-  ariaLabel: string; 
-  onClick?: () => void;
-  isActive?: boolean;
-}) {
-  return (
-    <button 
-      className={`flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 flex-shrink-0 ${
-        isActive 
-          ? 'text-green-600 hover:text-green-700' 
-          : 'text-gray-500 hover:text-gray-700'
-      }`}
-      aria-label={ariaLabel}
-      onClick={onClick}
-    >
-      <svg 
-        className="w-3 h-3 sm:w-5 sm:h-5 stroke-1" 
-        fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24" 
-        aria-hidden="true"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
-      </svg>
-      <span className="hidden xs:inline">{shortLabel}</span>
-      <span className="xs:hidden sm:inline">{label}</span>
-    </button>
   );
 }
 

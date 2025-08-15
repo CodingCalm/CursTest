@@ -72,6 +72,22 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 - **Performance**: Optimize for mobile network speeds and device capabilities.
 - **Testing**: Always test on actual mobile devices, not just browser dev tools.
 
+## Object-Oriented Programming and Modular Design
+- **Single Responsibility Principle**: Each component, function, and module should have one clear purpose.
+- **Open/Closed Principle**: Components should be open for extension but closed for modification.
+- **Dependency Inversion**: Depend on abstractions (interfaces) rather than concrete implementations.
+- **Composition over Inheritance**: Use composition patterns and higher-order components instead of class inheritance.
+- **Interface Segregation**: Create small, focused interfaces rather than large, monolithic ones.
+- **Modular Architecture**: Break down complex functionality into smaller, reusable modules.
+- **Separation of Concerns**: Keep UI logic, business logic, and data access separate.
+- **Component Composition**: Build complex components by composing smaller, focused components.
+- **Custom Hooks**: Extract reusable logic into custom hooks for better modularity.
+- **Service Layer Pattern**: Use service classes/interfaces to abstract data operations.
+- **Type-Driven Development**: Define clear interfaces and types before implementation.
+- **Factory Patterns**: Use factory functions for creating complex objects or components.
+- **Strategy Pattern**: Implement different algorithms or behaviors through interchangeable strategies.
+- **Observer Pattern**: Use React Context and custom hooks for state management and communication.
+
 ## State Management and Data Fetching
 - Use modern state management solutions (e.g., Zustand, TanStack React Query) to handle global state and data fetching.
 - Implement validation using Zod for schema validation.

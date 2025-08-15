@@ -2,30 +2,10 @@
 
 import React from "react";
 import { PostCard } from "@/components";
-import { postService } from "@/services";
-import { Post } from "@/types";
+import { usePosts } from "@/hooks";
 
 export default function MainContent(): React.JSX.Element {
-  const [posts, setPosts] = React.useState<Post[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    async function loadPosts() {
-      try {
-        setLoading(true);
-        const fetchedPosts = await postService.getAllPosts();
-        setPosts(fetchedPosts);
-      } catch (err) {
-        setError('Kunde inte ladda inlägg');
-        console.error('Error loading posts:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadPosts();
-  }, []);
+  const { posts, loading, error, refetch } = usePosts();
 
   if (loading) {
     return (
@@ -44,7 +24,7 @@ export default function MainContent(): React.JSX.Element {
         <div className="text-center py-8">
           <p className="text-red-600">{error}</p>
           <button 
-            onClick={() => window.location.reload()} 
+            onClick={refetch} 
             className="mt-2 px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800"
           >
             Försök igen
@@ -61,7 +41,7 @@ export default function MainContent(): React.JSX.Element {
   );
 }
 
-function PostsList({ posts }: { posts: Post[] }) {
+function PostsList({ posts }: { posts: any[] }) {
   return (
     <div className="space-y-4" role="feed" aria-label="Lista över populära inlägg">
       {posts.map((post) => (
