@@ -21,39 +21,78 @@ export default function PostCard({
       className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-200 p-4" 
       role="article"
     >
-      <div className="flex gap-4">
-        {/* Voting Section */}
-        <VotingSection upvotes={upvotes} />
-        
-        {/* Content Section */}
-        <div className="flex-1 min-w-0">
-          <PostMetadata author={author} timeAgo={timeAgo} />
-          <PostTitle id={id} title={title} />
-          <PostContent content={content} />
-          <PostActions comments={comments} nominations={nominations} />
-        </div>
+      {/* Content Section */}
+      <div className="flex-1 min-w-0">
+        <PostMetadata author={author} timeAgo={timeAgo} />
+        <PostTitle id={id} title={title} />
+        <PostContent content={content} />
+        <PostActions comments={comments} />
       </div>
+      <VotingSection upvotes={upvotes} nominations={nominations} comments={comments} />
     </article>
   );
 }
 
 // Sub-components for better organization
-function VotingSection({ upvotes }: { upvotes: number }) {
+function VotingSection({ upvotes, nominations, comments }: { upvotes: number; nominations: number; comments: number }) {
+  const [localIsNominated, setLocalIsNominated] = React.useState(false);
+
+  const handleNomination = () => {
+    setLocalIsNominated(!localIsNominated);
+    console.log('Nominering toggled for post', !localIsNominated);
+  };
+
   return (
-    <div className="flex flex-col items-center gap-1" role="group" aria-label="Röstningssektion">
-      <VoteButton 
-        direction="up" 
-        upvotes={upvotes} 
-        className="hover:text-orange-500 focus:ring-orange-500" 
-      />
-      <span className="text-sm font-medium text-gray-900" aria-live="polite">
-        {upvotes}
-      </span>
-      <VoteButton 
-        direction="down" 
-        upvotes={upvotes} 
-        className="hover:text-blue-500 focus:ring-blue-500" 
-      />
+    <div className="flex flex-row items-center justify-between mt-4 pt-4 border-t border-gray-200" role="group" aria-label="Röstningssektion">
+      <div className="flex items-center gap-2">
+        <VoteButton 
+          direction="up" 
+          upvotes={upvotes} 
+          className="hover:text-orange-500 focus:ring-orange-500" 
+        />
+        <span className="text-sm font-bold text-gray-900 mx-2" aria-live="polite">
+          {upvotes}
+        </span>
+        <VoteButton 
+          direction="down" 
+          upvotes={upvotes} 
+          className="hover:text-blue-500 focus:ring-blue-500" 
+        />
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 text-gray-500">
+          <svg 
+            className="w-4 h-4" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          <span className="text-xs">{comments}</span>
+        </div>
+        <button 
+          className={`flex items-center gap-1 p-1 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 ${
+            localIsNominated 
+              ? 'text-green-600 hover:text-green-700' 
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+          aria-label={localIsNominated ? "Ta bort nominering" : "Nominera detta inlägg som proposition"}
+          onClick={handleNomination}
+        >
+          <svg 
+            className={`w-4 h-4 ${localIsNominated ? 'stroke-2' : 'stroke-1'}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24" 
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={localIsNominated ? 3 : 2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+          <span className="text-xs">{localIsNominated ? "Nominerad" : "Nominera"}</span>
+        </button>
+      </div>
     </div>
   );
 }
@@ -78,7 +117,7 @@ function VoteButton({
       aria-label={`Rösta ${isUpvote ? 'upp' : 'ner'}. Just nu ${upvotes} röster`}
       aria-pressed="false"
     >
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
         <path fillRule="evenodd" d={iconPath} clipRule="evenodd" />
       </svg>
     </button>
@@ -113,55 +152,8 @@ function PostContent({ content }: { content: string }) {
   );
 }
 
-function PostActions({ comments, nominations }: { comments: number; nominations: number }) {
-  const [localIsNominated, setLocalIsNominated] = React.useState(false);
-
-  const handleNomination = () => {
-    setLocalIsNominated(!localIsNominated);
-    // Här skulle vi normalt anropa en API för att uppdatera nomineringen
-    console.log('Nominering toggled for post', !localIsNominated);
-  };
-
-  const actions = [
-    {
-      icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
-      label: `${comments} kommentarer`,
-      shortLabel: `${comments}`,
-      ariaLabel: `${comments} kommentarer. Klicka för att visa kommentarer`,
-      onClick: undefined
-    },
-    {
-      icon: "M5 10l7-7m0 0l7 7m-7-7v18",
-      label: localIsNominated ? "Nominerad" : "Nominera",
-      shortLabel: localIsNominated ? "Nominerad" : "Nominera",
-      ariaLabel: localIsNominated ? "Ta bort nominering" : "Nominera detta inlägg som proposition",
-      onClick: handleNomination,
-      isActive: localIsNominated
-    },
-    {
-      icon: "M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z",
-      label: "Spara",
-      shortLabel: "Spara",
-      ariaLabel: "Spara detta inlägg",
-      onClick: undefined
-    }
-  ];
-
-  return (
-    <div className="flex items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500" role="group" aria-label="Inläggsåtgärder">
-      {actions.map((action, index) => (
-        <ActionButton 
-          key={index} 
-          icon={action.icon}
-          label={action.label}
-          shortLabel={action.shortLabel}
-          ariaLabel={action.ariaLabel}
-          onClick={action.onClick}
-          isActive={action.isActive}
-        />
-      ))}
-    </div>
-  );
+function PostActions({ comments }: { comments: number }) {
+  return null;
 }
 
 function ActionButton({ 
@@ -179,8 +171,6 @@ function ActionButton({
   onClick?: () => void;
   isActive?: boolean;
 }) {
-  const isNominationButton = icon === "M5 10l7-7m0 0l7 7m-7-7v18";
-  
   return (
     <button 
       className={`flex items-center gap-1 p-1 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 flex-shrink-0 ${
@@ -192,13 +182,13 @@ function ActionButton({
       onClick={onClick}
     >
       <svg 
-        className={`${isNominationButton ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-3 h-3 sm:w-4 sm:h-4'} ${isActive ? 'stroke-2' : 'stroke-1'}`} 
+        className="w-3 h-3 sm:w-4 sm:h-4 stroke-1" 
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24" 
         aria-hidden="true"
       >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive ? 3 : 2} d={icon} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
       </svg>
       <span className="hidden xs:inline">{shortLabel}</span>
       <span className="xs:hidden sm:inline">{label}</span>
