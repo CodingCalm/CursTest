@@ -58,6 +58,20 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 - Use modern UI frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI) for styling.
 - Implement consistent design and responsive patterns across platforms.
 
+## Mobile-First Optimization
+- **Design for mobile first**: Start with mobile layout and scale up to desktop.
+- **Touch-friendly interfaces**: Ensure all interactive elements are at least 44px × 44px.
+- **Responsive breakpoints**: Use Tailwind's mobile-first approach (sm:, md:, lg:, xl:).
+- **Custom breakpoints**: Add 'xs' breakpoint (475px) for extra small devices.
+- **Compact layouts**: Optimize space usage on small screens with shorter text and smaller gaps.
+- **Flexible components**: Use flex-shrink-0 to prevent unwanted shrinking.
+- **Text scaling**: Implement responsive text that adapts to screen size.
+- **Button optimization**: Ensure buttons and interactive elements fit within container bounds.
+- **Navigation**: Design mobile-friendly navigation that doesn't overflow.
+- **Content prioritization**: Show most important content first on mobile devices.
+- **Performance**: Optimize for mobile network speeds and device capabilities.
+- **Testing**: Always test on actual mobile devices, not just browser dev tools.
+
 ## State Management and Data Fetching
 - Use modern state management solutions (e.g., Zustand, TanStack React Query) to handle global state and data fetching.
 - Implement validation using Zod for schema validation.

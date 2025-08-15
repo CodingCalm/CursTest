@@ -175,10 +175,10 @@ function PostContent({ post }: { post: Post }) {
 
 function PostMetadata({ author, timeAgo }: { author: string; timeAgo: string }) {
   return (
-    <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-      <span>Postat av u/{author}</span>
-      <span aria-hidden="true">•</span>
-      <time dateTime="2024-01-01">{timeAgo}</time>
+    <div className="flex flex-col xs:flex-row xs:items-center gap-1 xs:gap-2 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+      <span className="whitespace-nowrap">Postat av u/{author}</span>
+      <span className="hidden xs:inline" aria-hidden="true">•</span>
+      <time dateTime="2024-01-01" className="whitespace-nowrap">{timeAgo}</time>
     </div>
   );
 }
@@ -214,12 +214,14 @@ function PostActions({ post }: { post: Post }) {
     {
       icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
       label: `${post.comments} kommentarer`,
+      shortLabel: `${post.comments}`,
       ariaLabel: `${post.comments} kommentarer. Klicka för att visa kommentarer`,
       onClick: undefined
     },
     {
       icon: "M5 10l7-7m0 0l7 7m-7-7v18",
       label: localIsNominated ? "Nominerad" : "Nominera",
+      shortLabel: localIsNominated ? "Nominerad" : "Nominera",
       ariaLabel: localIsNominated ? "Ta bort nominering" : "Nominera detta inlägg som proposition",
       onClick: handleNomination,
       isActive: localIsNominated
@@ -227,18 +229,20 @@ function PostActions({ post }: { post: Post }) {
     {
       icon: "M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z",
       label: "Spara",
+      shortLabel: "Spara",
       ariaLabel: "Spara detta inlägg",
       onClick: undefined
     }
   ];
 
   return (
-    <div className="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-500 border-t border-gray-200 pt-4" role="group" aria-label="Inläggsåtgärder">
+    <div className="flex items-center justify-between gap-2 sm:gap-6 text-xs sm:text-sm text-gray-500 border-t border-gray-200 pt-4" role="group" aria-label="Inläggsåtgärder">
       {actions.map((action, index) => (
         <ActionButton 
           key={index} 
           icon={action.icon}
           label={action.label}
+          shortLabel={action.shortLabel}
           ariaLabel={action.ariaLabel}
           onClick={action.onClick}
           isActive={action.isActive}
@@ -251,12 +255,14 @@ function PostActions({ post }: { post: Post }) {
 function ActionButton({ 
   icon, 
   label, 
+  shortLabel,
   ariaLabel,
   onClick,
   isActive
 }: { 
   icon: string; 
   label: string; 
+  shortLabel: string;
   ariaLabel: string; 
   onClick?: () => void;
   isActive?: boolean;
@@ -265,7 +271,7 @@ function ActionButton({
   
   return (
     <button 
-      className={`flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 ${
+      className={`flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 flex-shrink-0 ${
         isActive 
           ? 'text-green-600 hover:text-green-700' 
           : 'text-gray-500 hover:text-gray-700'
@@ -274,7 +280,7 @@ function ActionButton({
       onClick={onClick}
     >
       <svg 
-        className={`${isNominationButton ? 'w-5 h-5 sm:w-6 sm:h-6' : 'w-4 h-4 sm:w-5 sm:h-5'} ${isActive ? 'stroke-2' : 'stroke-1'}`} 
+        className={`${isNominationButton ? 'w-4 h-4 sm:w-6 sm:h-6' : 'w-3 h-3 sm:w-5 sm:h-5'} ${isActive ? 'stroke-2' : 'stroke-1'}`} 
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24" 
@@ -282,7 +288,8 @@ function ActionButton({
       >
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={isActive ? 3 : 2} d={icon} />
       </svg>
-      <span>{label}</span>
+      <span className="hidden xs:inline">{shortLabel}</span>
+      <span className="xs:hidden sm:inline">{label}</span>
     </button>
   );
 }

@@ -1,2 +1,2 @@
 // Type exports
-export { Post, PostService } from './post';
+export type { Post, PostService } from './post';
