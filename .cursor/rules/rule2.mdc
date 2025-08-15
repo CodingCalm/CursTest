@@ -1,0 +1,5 @@
+For the Trete project, use strict TypeScript with functional/declarative patterns, accurate examples, descriptive auxiliary-verb variable names, and modular file structure with kebab-case directories. Minimize client-side hooks and favor React Server Components/SSR with dynamic imports. Adopt mobile-first responsive design, optimize images (WebP, include size data, lazy-load). Use Tailwind CSS, Shadcn UI, Radix UI; manage state/data fetching with Zustand or TanStack React Query and validate data with Zod. Enforce error handling via early returns, guard clauses, and custom error types. Follow security best practices and performance optimizations. Write Jest/React Testing Library unit tests and include clear comments and JSDoc for complex logic.
+description:
+globs:
+alwaysApply: false
+---
