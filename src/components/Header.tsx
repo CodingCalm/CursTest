@@ -1,11 +1,27 @@
 import React from "react";
+import Image from "next/image";
 
 export default function Header(): React.JSX.Element {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm" role="banner">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <nav role="navigation" aria-label="Huvudnavigation">
+      <div className="max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 sm:h-20">
+          {/* Logo */}
+          <div className="flex-shrink-0 ml-0">
+            <a href="/" className="flex items-center" aria-label="Gå till startsidan">
+              <Image 
+                src="/images/arete-logo.png" 
+                alt="Arete Logo" 
+                width={240}
+                height={64}
+                className="h-12 sm:h-16 w-auto"
+                priority
+              />
+            </a>
+          </div>
+
+          {/* Navigation */}
+          <nav role="navigation" aria-label="Huvudnavigation" className="ml-8">
             <ul className="flex items-center space-x-8">
               <li>
                 <a 
