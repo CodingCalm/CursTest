@@ -1,1 +1,1 @@
-export { default as Torget } from "./Torget";
+export { default as OppetSamtal } from "./Torget";

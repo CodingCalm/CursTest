@@ -18,7 +18,7 @@ export function PostTitle({
   
   if (isDetail) {
     return (
-      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
+      <h1 className="text-xl sm:text-2xl font-bold text-blue-800 mb-4">
         {title}
       </h1>
     );
@@ -26,7 +26,7 @@ export function PostTitle({
   
   return (
     <Link href={`/posts/${id}`}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 rounded transition-all duration-200">
+      <h3 className="text-lg font-semibold text-blue-800 mb-2 hover:text-blue-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 rounded transition-all duration-200">
         {title}
       </h3>
     </Link>

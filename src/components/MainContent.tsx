@@ -39,8 +39,7 @@ export default function MainContent(): React.JSX.Element {
 
   return (
     <main className="w-full max-w-2xl space-y-4 px-4" role="main" id="main-content">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Torget</h1>
+      <div className="flex justify-end items-center mb-4">
         <SortButton />
       </div>
       <PostsList posts={posts} />

@@ -9,7 +9,7 @@ import { SortButton } from "@/components/ui";
 import { useSortingStore, useVotingStore } from "@/stores";
 import { type Post } from "@/types/post";
 
-export default function Torget(): React.JSX.Element {
+export default function OppetSamtal(): React.JSX.Element {
   const { posts, loading, error, refetch } = usePosts();
 
   if (loading) {
@@ -34,7 +34,7 @@ export default function Torget(): React.JSX.Element {
   return (
     <main className="w-full max-w-2xl space-y-4 px-4" role="main" id="main-content">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-900">Torget</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Öppet Samtal</h1>
         <SortButton />
       </div>
       <PostsList posts={posts} />

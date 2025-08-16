@@ -59,15 +59,8 @@ function ForslagDetail({ forslag }: { forslag: Forslag }) {
   return (
     <article className="bg-white rounded-lg shadow-lg p-4 sm:p-6" role="article">
       <div className="flex-1 min-w-0">
-        {/* Förslag Badge */}
-        <div className="mb-4">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-            Medborgarförslag #{forslag.id}
-          </span>
-        </div>
-        
         {/* Title */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-green-800 mb-6">
           {forslag.title}
         </h1>
         

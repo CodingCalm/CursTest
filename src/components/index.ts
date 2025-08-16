@@ -16,3 +16,4 @@ export * from "./post";
 export { default as Button } from "./ui/Button";
 export { default as Icon } from "./ui/Icon";
 export { ActionButton } from "./ui/ActionButton";
+export { UserMenu } from "./UserMenu";
