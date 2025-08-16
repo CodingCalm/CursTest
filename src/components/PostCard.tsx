@@ -11,6 +11,7 @@ export default function PostCard({
   id,
   title,
   content,
+  summary,
   author,
   upvotes,
   comments,
@@ -26,7 +27,7 @@ export default function PostCard({
       <div className="flex-1 min-w-0">
         <PostMetadata author={author} timeAgo={timeAgo} variant="card" />
         <PostTitle id={id} title={title} variant="card" />
-        <PostContent content={content} variant="card" />
+        <PostContent content={summary} variant="card" />
         <PostActions comments={comments} variant="card" />
       </div>
       <VotingSection upvotes={upvotes} comments={comments} postId={id} showComments={true} allowNomination={false} />

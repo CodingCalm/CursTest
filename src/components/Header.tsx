@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Header(): React.JSX.Element {
   return (
@@ -35,6 +36,8 @@ function Logo() {
 }
 
 function Navigation() {
+  const pathname = usePathname();
+  
   const navItems = [
     { href: "/", label: "Torget" },
     { href: "/propositions", label: "Förslag" },
@@ -45,20 +48,39 @@ function Navigation() {
     <nav role="navigation" aria-label="Huvudnavigation" className="flex-shrink-0 ml-4 sm:ml-8">
       <ul className="flex space-x-2 sm:space-x-4 md:space-x-8">
         {navItems.map((item) => (
-          <NavItem key={item.href} {...item} />
+          <NavItem key={item.href} {...item} pathname={pathname} />
         ))}
       </ul>
     </nav>
   );
 }
 
-function NavItem({ href, label }: { href: string; label: string }) {
+function NavItem({ href, label, pathname }: { href: string; label: string; pathname: string }) {
+  // Check if current page matches the navigation item
+  const isActive = (() => {
+    if (href === "/") {
+      // For "Torget", match exact path or posts pages
+      return pathname === "/" || pathname.startsWith("/posts/");
+    } else if (href === "/propositions") {
+      // For "Förslag", match exact path or proposition detail pages
+      return pathname === "/propositions" || pathname.startsWith("/propositions/");
+    } else if (href === "/voting") {
+      // For "Votering", match exact path
+      return pathname === "/voting";
+    }
+    return false;
+  })();
+
   return (
     <li>
       <Link
         href={href}
-        className="text-gray-700 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 whitespace-nowrap"
-        aria-current={href === "/" ? "page" : undefined}
+        className={`px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 whitespace-nowrap ${
+          isActive 
+            ? 'text-gray-900 font-bold' 
+            : 'text-gray-700 hover:text-gray-900 font-medium'
+        }`}
+        aria-current={isActive ? "page" : undefined}
       >
         {label}
       </Link>

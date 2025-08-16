@@ -3,6 +3,7 @@ export interface Post {
   id: number;
   title: string;
   content: string;
+  summary: string;
   author: string;
   upvotes: number;
   comments: number;

@@ -7,6 +7,7 @@ interface ForslagCardProps {
   id: number;
   title: string;
   introduction: string;
+  summary: string;
   background: string;
   arguments: string[];
   conclusion: string;
@@ -16,7 +17,7 @@ interface ForslagCardProps {
 export function ForslagCard({
   id,
   title,
-  introduction,
+  summary,
   originalPostId
 }: ForslagCardProps): React.JSX.Element {
   return (
@@ -51,7 +52,7 @@ export function ForslagCard({
         
         {/* Content Preview */}
         <p className="text-gray-700 leading-relaxed">
-          {introduction}
+          {summary}
         </p>
       </div>
     </article>

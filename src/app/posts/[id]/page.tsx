@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Post } from "@/types";
 import Link from "next/link";
 import { VotingSection } from "@/components/VotingSection";
-import { PostMetadata, PostTitle, PostContent as PostContentComponent, PostActions } from "@/components/post";
+import { PostMetadata, PostTitle, PostContent as PostContentComponent, PostActions, RelatedPropositions, CommentsSection } from "@/components/post";
 import { usePost } from "@/hooks";
 
 interface PostPageProps {
@@ -64,6 +64,7 @@ export default function PostPage({ params }: PostPageProps): React.JSX.Element {
       <div className="w-full max-w-2xl px-4">
         <BackButton />
         <PostDetail post={post} />
+        <RelatedPropositions postId={post.id} />
         <CommentsSection comments={post.comments} />
       </div>
     </div>
@@ -102,22 +103,6 @@ function PostContent({ post }: { post: Post }) {
       <PostTitle title={post.title} variant="detail" />
       <PostContentComponent content={post.content} variant="detail" />
       <PostActions variant="detail" />
-    </div>
-  );
-}
-
-function CommentsSection({ comments }: { comments: number }) {
-  return (
-    <div className="mt-8 bg-white rounded-lg shadow-lg p-4 sm:p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">
-        Kommentarer ({comments})
-      </h2>
-      <div className="text-center text-gray-500 py-8">
-        <svg className="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-        <p>Kommentarer kommer snart...</p>
-      </div>
     </div>
   );
 }
