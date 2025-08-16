@@ -1,6 +1,6 @@
 import React from 'react';
 import { CreatePostForm } from '@/components/posts/CreatePostForm';
-import { PageContainer } from '@/components/ui/PageContainer';
+import { PageContainer } from '@/components/ui';
 
 export default function CreatePostPage(): React.JSX.Element {
   return (

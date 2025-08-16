@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FormInput } from '@/components/ui/FormInput';
+import { FormInput } from '@/components/ui';
 
 interface CreatePostFormData {
   title: string;

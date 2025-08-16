@@ -1,13 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { PostCard } from '@/components';
 import { usePosts } from '@/hooks';
-import { SortButton } from '@/components/ui';
+import { SortButton, LoadingSpinner } from '@/components/ui';
 import { useSortingStore, useVotingStore } from '@/stores';
 import { type Post } from '@/types/post';
+
+// Lazy load PostsList component
+const PostsList = React.lazy(() =>
+  import('./PostsList').then(module => ({ default: module.PostsList }))
+);
 
 export default function MainContent(): React.JSX.Element {
   const { posts, loading, error, refetch } = usePosts();
@@ -20,10 +25,7 @@ export default function MainContent(): React.JSX.Element {
         role='main'
         id='main-content'
       >
-        <div className='text-center py-8'>
-          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto'></div>
-          <p className='mt-2 text-gray-600'>Laddar inlägg...</p>
-        </div>
+        <LoadingSpinner message='Laddar inlägg...' />
       </main>
     );
   }
@@ -109,56 +111,10 @@ export default function MainContent(): React.JSX.Element {
           <SortButton />
         </div>
       </div>
-      <PostsList posts={posts} />
+
+      <Suspense fallback={<LoadingSpinner message='Laddar inlägg...' />}>
+        <PostsList posts={posts} />
+      </Suspense>
     </main>
-  );
-}
-
-function PostsList({ posts }: { posts: Post[] }) {
-  const { currentSort } = useSortingStore();
-  const { getUpvotes } = useVotingStore();
-
-  if (!posts.length) {
-    return (
-      <div className='text-center py-8'>
-        <p className='text-gray-600'>Inga inlägg att visa</p>
-      </div>
-    );
-  }
-
-  // Sort posts based on current sort option
-  const sortedPosts = [...posts].sort((a, b) => {
-    switch (currentSort) {
-      case 'newest':
-        return (
-          new Date(b.created_at || '').getTime() -
-          new Date(a.created_at || '').getTime()
-        );
-      case 'oldest':
-        return (
-          new Date(a.created_at || '').getTime() -
-          new Date(b.created_at || '').getTime()
-        );
-      case 'mostUpvotes':
-        return getUpvotes(b.id) - getUpvotes(a.id);
-      case 'leastUpvotes':
-        return getUpvotes(a.id) - getUpvotes(b.id);
-      case 'mostComments':
-        return (b.comments || 0) - (a.comments || 0);
-      default:
-        return 0;
-    }
-  });
-
-  return (
-    <div
-      className='space-y-4'
-      role='feed'
-      aria-label='Lista över populära inlägg'
-    >
-      {sortedPosts.map(post => (
-        <PostCard key={post.id} {...post} />
-      ))}
-    </div>
   );
 }

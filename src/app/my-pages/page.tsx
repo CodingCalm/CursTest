@@ -3,8 +3,7 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { PageContainer } from '@/components/ui/PageContainer';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { PageContainer, LoadingSpinner } from '@/components/ui';
 
 export default function MyPages(): React.JSX.Element {
   const { data: session, status } = useSession();

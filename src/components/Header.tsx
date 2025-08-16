@@ -66,6 +66,7 @@ function Logo() {
           height={64}
           className='h-10 sm:h-12 md:h-16 w-auto'
           priority
+          sizes='(max-width: 640px) 160px, (max-width: 768px) 192px, 256px'
         />
       </Link>
     </div>

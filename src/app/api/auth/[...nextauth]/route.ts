@@ -80,7 +80,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user) {
           token.role = user.role as UserRole;
           token.id = user.id as string;
-          console.log(`NextAuth: JWT token created for user: ${user.email}`);
         }
         return token;
       } catch (error) {
@@ -102,17 +101,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   secret: authConfig.getSecret(),
-  debug: process.env.NODE_ENV === 'development',
+  debug: false, // Disabled debug mode for better performance
   pages: {
     signIn: '/auth/signin',
     error: '/auth/error',
   },
   events: {
     async signIn({ user }) {
-      console.log(`NextAuth: User signed in: ${user.email}`);
+      // Silent sign-in event
     },
     async signOut() {
-      console.log('NextAuth: User signed out');
+      // Silent sign-out event
     },
   },
 });

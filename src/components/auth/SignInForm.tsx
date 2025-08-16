@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FormInput } from '@/components/ui/FormInput';
-import { AccessibleButton } from '@/components/ui/AccessibleButton';
+import { FormInput } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 export function SignInForm() {
   const [email, setEmail] = useState('');
@@ -107,17 +107,17 @@ export function SignInForm() {
             disabled={isLoading}
           />
 
-          <AccessibleButton
+          <Button
             type='submit'
             variant='primary'
             size='lg'
             disabled={!isFormValid() || isLoading}
             loading={isLoading}
             className='w-full'
-            ariaLabel={isLoading ? 'Loggar in...' : 'Logga in'}
+            aria-label={isLoading ? 'Loggar in...' : 'Logga in'}
           >
             {isLoading ? 'Loggar in...' : 'Logga in'}
-          </AccessibleButton>
+          </Button>
         </form>
 
         <div className='mt-6 text-center'>

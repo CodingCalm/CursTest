@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ExpandableSection } from '@/components/ui/ExpandableSection';
+import { ExpandableSection } from '@/components/ui';
 import { mockForslag } from '@/data';
 
 interface RelatedPropositionsProps {

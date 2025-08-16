@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Header, Footer, SkipLink, PageTitle } from '@/components';
@@ -17,6 +17,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Arete - Demokratisk plattform',
   description: 'En plattform för öppet samtal, förslag och votering',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ExpandableSection } from '@/components/ui/ExpandableSection';
+import { ExpandableSection } from '@/components/ui';
 
 interface CommentsSectionProps {
   comments: number;

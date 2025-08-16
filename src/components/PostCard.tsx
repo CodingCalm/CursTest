@@ -7,7 +7,7 @@ import { PostMetadata, PostTitle, PostContent, PostActions } from './post';
 
 interface PostCardProps extends Post {}
 
-export default function PostCard({
+const PostCard = React.memo(function PostCard({
   id,
   title,
   content,
@@ -39,4 +39,6 @@ export default function PostCard({
       />
     </article>
   );
-}
+});
+
+export default PostCard;

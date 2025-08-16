@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { AccessibleButton } from '@/components/ui/AccessibleButton';
+import { Button } from '@/components/ui';
 
-export function UserMenu() {
+export const UserMenu = React.memo(function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session, status } = useSession();
 
@@ -90,12 +90,12 @@ export function UserMenu() {
   // Handle authenticated state
   return (
     <div className='relative'>
-      <AccessibleButton
+      <Button
         variant='ghost'
         onClick={toggleMenu}
-        ariaLabel={`Användarmenyn för ${getUserDisplayName(session)}`}
-        ariaExpanded={isMenuOpen}
-        ariaControls='user-menu-dropdown'
+        aria-label={`Användarmenyn för ${getUserDisplayName(session)}`}
+        aria-expanded={isMenuOpen}
+        aria-controls='user-menu-dropdown'
         className='flex items-center space-x-2'
       >
         <div
@@ -119,7 +119,7 @@ export function UserMenu() {
             d='M19 9l-7 7-7-7'
           />
         </svg>
-      </AccessibleButton>
+      </Button>
 
       {isMenuOpen && (
         <div
@@ -146,17 +146,17 @@ export function UserMenu() {
             >
               Mina sidor
             </Link>
-            <AccessibleButton
+            <Button
               variant='ghost'
               onClick={handleSignOut}
               className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50'
-              ariaLabel='Logga ut från kontot'
+              aria-label='Logga ut från kontot'
             >
               Logga ut
-            </AccessibleButton>
+            </Button>
           </div>
         </div>
       )}
     </div>
   );
-}
+});
