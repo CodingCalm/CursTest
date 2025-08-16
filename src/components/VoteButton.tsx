@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useVotingStore } from "@/stores";
+import { LoginPrompt } from "@/components/ui/LoginPrompt";
 
 interface VoteButtonProps {
   direction: 'up' | 'down';
@@ -16,7 +18,9 @@ export function VoteButton({
   initialUpvotes,
   className = ""
 }: VoteButtonProps): React.JSX.Element {
+  const { data: session } = useSession();
   const { initializePost, votePost, getUserVote, getUpvotes } = useVotingStore();
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const userVote = getUserVote(postId);
   const currentUpvotes = getUpvotes(postId);
   
@@ -36,23 +40,44 @@ export function VoteButton({
     : "M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z";
 
   const handleVote = () => {
+    if (!session) {
+      setShowLoginPrompt(true);
+      return;
+    }
     votePost(postId, direction);
   };
 
+  const isAuthenticated = !!session;
+  const isDisabled = !isAuthenticated;
+
   return (
-    <button 
-      className={`p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 transition-colors duration-200 ${
-        isActive 
-          ? (isUpvote ? 'text-green-600' : 'text-red-600')
-          : 'text-gray-400 hover:text-gray-600'
-      } ${className}`}
-      aria-label={`Rösta ${isUpvote ? 'upp' : 'ner'}. Just nu ${displayUpvotes} röster`}
-      aria-pressed={isActive}
-      onClick={handleVote}
-    >
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-        <path fillRule="evenodd" d={iconPath} clipRule="evenodd" />
-      </svg>
-    </button>
+    <>
+      <button 
+        className={`p-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 transition-colors duration-200 ${
+          isActive 
+            ? (isUpvote ? 'text-green-600' : 'text-red-600')
+            : isDisabled 
+              ? 'text-gray-300 cursor-not-allowed'
+              : 'text-gray-400 hover:text-gray-600'
+        } ${className}`}
+        aria-label={isAuthenticated 
+          ? `Rösta ${isUpvote ? 'upp' : 'ner'}. Just nu ${displayUpvotes} röster`
+          : 'Logga in för att rösta'
+        }
+        aria-pressed={isActive}
+        onClick={handleVote}
+        disabled={isDisabled}
+      >
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path fillRule="evenodd" d={iconPath} clipRule="evenodd" />
+        </svg>
+      </button>
+      
+      <LoginPrompt 
+        isOpen={showLoginPrompt}
+        onClose={() => setShowLoginPrompt(false)}
+        action="rösta"
+      />
+    </>
   );
 }

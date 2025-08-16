@@ -13,3 +13,4 @@ export { ExpandableSection } from './ExpandableSection';
 export { LoadingSpinner } from './LoadingSpinner';
 export { PageContainer } from './PageContainer';
 export { SortButton } from './SortButton';
+export { LoginPrompt } from './LoginPrompt';

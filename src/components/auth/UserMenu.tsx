@@ -130,6 +130,13 @@ export function UserMenu() {
                    </div>
                  )}
                </div>
+               <Link
+                 href="/my-pages"
+                 onClick={closeMenu}
+                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 transition-colors duration-200"
+               >
+                 Mina sidor
+               </Link>
                <AccessibleButton
                  variant="ghost"
                  onClick={handleSignOut}
