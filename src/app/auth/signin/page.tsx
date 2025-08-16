@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PageContainer } from '@/components/ui/PageContainer';
@@ -12,7 +12,6 @@ export default function SignInPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,13 +19,17 @@ export default function SignInPage() {
     setError('');
 
     try {
-      const success = await login(email, password);
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
 
-      if (success) {
+      if (result?.error) {
+        setError('Felaktig email eller lösenord');
+      } else {
         router.push('/');
         router.refresh();
-      } else {
-        setError('Felaktig email eller lösenord');
       }
     } catch (error) {
       setError('Ett fel uppstod. Försök igen.');
