@@ -1,6 +1,11 @@
-// Service layer exports
-// Currently using mock data for development
+// Authentication Services
+export { AuthenticationService } from './auth/AuthenticationService';
+export type { AuthenticationResult, Credentials } from './auth/AuthenticationService';
 
+// Configuration
+export { AuthConfig } from '../config/auth.config';
+
+// Legacy Services (for backward compatibility)
 import { PostService, ForslagService } from '@/types/post';
 import { MockPostService } from './mock-post-service';
 import { MockForslagService } from './mock-forslag-service';

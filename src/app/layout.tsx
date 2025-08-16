@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header, Footer, SkipLink } from "@/components";
+import { Header, Footer, SkipLink, PageTitle } from "@/components";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 
 const geistSans = Geist({
@@ -33,6 +33,7 @@ export default function RootLayout({
           <div className="min-h-screen flex flex-col" role="application">
             <SkipLink />
             <Header />
+            <PageTitle />
             <main className="flex-1">
               {children}
             </main>

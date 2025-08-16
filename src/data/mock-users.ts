@@ -1,18 +1,13 @@
 import bcrypt from 'bcryptjs';
+import { User, UserRole } from '@/types/user';
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
+export interface MockUser extends User {
   password: string;
-  role: 'user' | 'admin';
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 // Mock users with hashed passwords
 // In production, these would come from a database
-export const mockUsers: User[] = [
+export const mockUsers: MockUser[] = [
   {
     id: '1',
     email: 'test@example.com',
@@ -34,12 +29,12 @@ export const mockUsers: User[] = [
 ];
 
 // Helper function to find user by email
-export function findUserByEmail(email: string): User | undefined {
+export function findUserByEmail(email: string): MockUser | undefined {
   return mockUsers.find(user => user.email === email);
 }
 
 // Helper function to find user by id
-export function findUserById(id: string): User | undefined {
+export function findUserById(id: string): MockUser | undefined {
   return mockUsers.find(user => user.id === id);
 }
 

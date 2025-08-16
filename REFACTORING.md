@@ -1,96 +1,182 @@
-# Kodrefaktorisering - CursTest
+# Refactored Authentication System
 
-## Översikt
+## 🏗️ **Architecture Overview**
 
-Denna refaktorisering har gjort koden mer läsbar, underhållbar och användarvänlig genom att:
+This refactoring implements Clean Code principles, Object-Oriented Programming, Separation of Concerns, and WCAG 2.1 AA compliance.
 
-- **Dela upp stora komponenter** i mindre, fokuserade komponenter
-- **Skapa återanvändbara UI-komponenter** för konsistens
-- **Förbättra TypeScript-typer** för bättre utvecklingsupplevelse
-- **Behålla WCAG ARIA-taggar** för tillgänglighet
-- **Organisera koden** i logiska sektioner
+## 📁 **New File Structure**
 
-## Komponentstruktur
+```
+src/
+├── components/
+│   ├── auth/                    # Authentication components
+│   │   ├── UserMenu.tsx        # OOP-based user menu with WCAG compliance
+│   │   ├── SignInForm.tsx      # Refactored sign-in form
+│   │   └── index.ts            # Auth component exports
+│   └── ui/                     # Reusable UI components
+│       ├── FormInput.tsx       # WCAG-compliant form input
+│       ├── AccessibleButton.tsx # WCAG-compliant button
+│       └── index.ts            # UI component exports
+├── services/
+│   ├── auth/
+│   │   └── AuthenticationService.ts # OOP authentication service
+│   └── index.ts                # Service exports
+├── config/
+│   └── auth.config.ts          # Singleton auth configuration
+├── types/
+│   ├── user.ts                 # User type definitions
+│   └── next-auth.d.ts          # NextAuth type extensions
+└── data/
+    └── mock-users.ts           # Updated mock data with proper types
+```
 
-### Huvudkomponenter
+## 🎯 **Clean Code Principles Applied**
 
-#### `PostCard.tsx`
-- **VotingSection**: Hanterar röstningsknappar
-- **PostMetadata**: Visar författare och tid
-- **PostTitle**: Klickbar titel med navigation
-- **PostContent**: Trunkerat innehåll
-- **PostActions**: Åtgärdsknappar (kommentarer, dela, spara)
+### **1. Single Responsibility Principle (SRP)**
+- `AuthenticationService`: Handles only authentication logic
+- `AuthConfig`: Manages only configuration
+- `FormInput`: Handles only form input rendering and validation
+- `UserMenu`: Manages only user menu state and rendering
 
-#### `Header.tsx`
-- **Logo**: Arete-logotyp med länk till startsidan
-- **Navigation**: Navigationsmeny med dynamiska länkar
-- **NavItem**: Individuella navigationslänkar
+### **2. Open/Closed Principle (OCP)**
+- Services are extensible without modification
+- Components accept props for customization
+- Configuration is centralized and extensible
 
-#### `posts/[id]/page.tsx`
-- **BackButton**: Tillbaka-knapp till startsidan
-- **PostDetail**: Huvudinnehåll för post
-- **VotingSection**: Samma som i PostCard
-- **PostContent**: Fullständigt innehåll
-- **CommentsSection**: Kommentarsektion (placeholder)
+### **3. Dependency Inversion Principle (DIP)**
+- Components depend on abstractions (interfaces)
+- Services are injected where needed
+- Mock data can be easily replaced with real implementations
 
-### UI-komponenter
+## 🏛️ **Object-Oriented Programming**
 
-#### `Button.tsx`
-Återanvändbar knappkomponent med:
-- **Varianter**: primary, secondary, ghost
-- **Storlekar**: sm, md, lg
-- **WCAG-kompatibel**: Focus states och ARIA-stöd
+### **Classes with Clear Responsibilities**
+```typescript
+// Service Layer
+export class AuthenticationService {
+  public async authenticateUser(credentials: Credentials): Promise<AuthenticationResult>
+  private isValidCredentials(credentials: Credentials): boolean
+  private isValidEmail(email: string): boolean
+}
 
-#### `Icon.tsx`
-Centraliserad ikonhantering med:
-- **Fördefinierade ikoner**: arrow-left, comment, share, etc.
-- **Storlekar**: sm, md, lg
-- **Konsistent styling**
+// Configuration Management
+export class AuthConfig {
+  private static instance: AuthConfig
+  public static getInstance(): AuthConfig
+  public getSecret(): string
+  public getUrl(): string
+  public validate(): boolean
+}
 
-## Förbättringar
+// UI Components
+export class FormInput extends React.Component<FormInputProps>
+export class AccessibleButton extends React.Component<AccessibleButtonProps>
+export class SignInForm extends React.Component<{}, SignInFormState>
+export class UserMenu extends React.Component<{}, UserMenuState>
+```
 
-### Läsbarhet
-- **Korta, fokuserade funktioner** (max 20-30 rader)
-- **Beskrivande komponentnamn** som förklarar syftet
-- **Konsistent kodformatering** med tydliga kommentarer
+## 🔒 **Separation of Concerns**
 
-### Underhållbarhet
-- **Separation of concerns** - varje komponent har ett tydligt ansvarsområde
-- **Återanvändbara komponenter** minskar kodduplicering
-- **TypeScript interfaces** för bättre typning
+### **1. Service Layer**
+- **AuthenticationService**: Business logic for user authentication
+- **AuthConfig**: Configuration management
+- **Mock Data**: Data access layer (easily replaceable)
 
-### Användarvänlighet
-- **Konsistent design** genom hela applikationen
-- **Responsiv design** för alla skärmstorlekar
-- **Tillgänglighet** med WCAG ARIA-taggar
-- **Smooth transitions** och hover-effekter
+### **2. Component Layer**
+- **UI Components**: Reusable, accessible form elements
+- **Auth Components**: Authentication-specific UI
+- **Page Components**: Page-level composition
 
-### Prestanda
-- **Optimerade komponenter** med React.memo där lämpligt
-- **Lazy loading** för stora komponenter
-- **Efficient re-rendering** genom props-optimering
+### **3. Type Layer**
+- **User Types**: Strongly typed user data
+- **Service Interfaces**: Contract definitions
+- **Component Props**: Type-safe component interfaces
 
-## Färgschema
+## ♿ **WCAG 2.1 AA Compliance**
 
-Konsekvent grå/svart färgpalett:
-- **Primär**: `gray-800` / `gray-900`
-- **Sekundär**: `gray-600` / `gray-700`
-- **Bakgrund**: `gray-50` / `white`
-- **Border**: `gray-200`
+### **Form Accessibility**
+```typescript
+// Proper labeling and ARIA attributes
+<FormInput
+  id="email"
+  label="Email"
+  type="email"
+  required
+  autoComplete="email"
+  aria-describedby="email-error"
+  aria-invalid={!!error}
+  aria-required={true}
+/>
+```
 
-## Tillgänglighet
+### **Button Accessibility**
+```typescript
+// Accessible button with proper states
+<AccessibleButton
+  variant="primary"
+  loading={isLoading}
+  disabled={!isFormValid()}
+  ariaLabel={isLoading ? 'Loggar in...' : 'Logga in'}
+  aria-busy={isLoading}
+/>
+```
 
-Alla komponenter följer WCAG 2.1 riktlinjer:
-- **ARIA-labels** för alla interaktiva element
-- **Keyboard navigation** stöds fullt ut
-- **Screen reader** kompatibilitet
-- **Focus indicators** för alla klickbara element
-- **Semantic HTML** med korrekta taggar
+### **Menu Accessibility**
+```typescript
+// Proper menu semantics
+<div 
+  role="menu"
+  aria-orientation="vertical"
+  aria-labelledby="user-menu-button"
+>
+  <button
+    aria-expanded={isMenuOpen}
+    aria-controls="user-menu-dropdown"
+  >
+```
 
-## Nästa steg
+## 🚀 **Benefits of Refactoring**
 
-1. **Lägg till tester** för alla komponenter
-2. **Implementera error boundaries** för bättre felhantering
-3. **Optimera bundle size** med code splitting
-4. **Lägg till animations** för bättre UX
-5. **Implementera dark mode** stöd
+### **1. Maintainability**
+- Clear separation of concerns
+- Single responsibility for each class/component
+- Easy to test individual units
+
+### **2. Extensibility**
+- Easy to add new authentication providers
+- Simple to replace mock data with real database
+- Configurable components
+
+### **3. Accessibility**
+- WCAG 2.1 AA compliant
+- Screen reader friendly
+- Keyboard navigation support
+- Proper ARIA attributes
+
+### **4. Type Safety**
+- Strongly typed interfaces
+- Compile-time error checking
+- Better IDE support
+
+### **5. Reusability**
+- Modular components
+- Consistent UI patterns
+- Shared service layer
+
+## 🔄 **Migration Path**
+
+The refactoring maintains backward compatibility while providing a clear path for future enhancements:
+
+1. **Current**: Mock data with NextAuth
+2. **Future**: Database integration (replace mock services)
+3. **Future**: Additional auth providers (extend AuthenticationService)
+4. **Future**: Advanced UI features (extend existing components)
+
+## 📋 **Testing Strategy**
+
+Each layer can be tested independently:
+
+- **Service Layer**: Unit tests for business logic
+- **Component Layer**: Component tests with React Testing Library
+- **Integration**: End-to-end tests for authentication flow
+- **Accessibility**: Automated a11y testing with axe-core
