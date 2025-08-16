@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        'xs': '475px',
+        xs: '475px',
       },
     },
   },
   plugins: [],
-}
+};
 
-export default config
+export default config;

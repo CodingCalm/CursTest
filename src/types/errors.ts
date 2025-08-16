@@ -30,4 +30,8 @@ export class NetworkError extends AppError {
   }
 }
 
-export type ErrorType = AppError | NotFoundError | ValidationError | NetworkError;
+export type ErrorType =
+  | AppError
+  | NotFoundError
+  | ValidationError
+  | NetworkError;

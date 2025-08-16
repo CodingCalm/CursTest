@@ -18,56 +18,67 @@ export class AuthenticationService {
    * @param credentials - User credentials
    * @returns AuthenticationResult with success status and user data or error
    */
-  public async authenticateUser(credentials: Credentials): Promise<AuthenticationResult> {
+  public async authenticateUser(
+    credentials: Credentials
+  ): Promise<AuthenticationResult> {
     try {
       // Validate input
       if (!this.isValidCredentials(credentials)) {
         console.warn('AuthenticationService: Invalid credentials provided');
         return {
           success: false,
-          error: 'Ogiltiga inloggningsuppgifter'
+          error: 'Ogiltiga inloggningsuppgifter',
         };
       }
 
       // Sanitize inputs
       const sanitizedEmail = this.sanitizeInput(credentials.email);
-      
+
       // Find user by email
       const user = findUserByEmail(sanitizedEmail);
       if (!user) {
-        console.warn(`AuthenticationService: User not found for email: ${sanitizedEmail}`);
+        console.warn(
+          `AuthenticationService: User not found for email: ${sanitizedEmail}`
+        );
         return {
           success: false,
-          error: 'Användare hittades inte'
+          error: 'Användare hittades inte',
         };
       }
 
       // Verify password
-      const isPasswordValid = await verifyPassword(credentials.password, user.password);
+      const isPasswordValid = await verifyPassword(
+        credentials.password,
+        user.password
+      );
       if (!isPasswordValid) {
-        console.warn(`AuthenticationService: Invalid password for user: ${sanitizedEmail}`);
+        console.warn(
+          `AuthenticationService: Invalid password for user: ${sanitizedEmail}`
+        );
         return {
           success: false,
-          error: 'Felaktigt lösenord'
+          error: 'Felaktigt lösenord',
         };
       }
 
       // Return successful authentication
-      console.log(`AuthenticationService: Successful authentication for user: ${sanitizedEmail}`);
+      console.log(
+        `AuthenticationService: Successful authentication for user: ${sanitizedEmail}`
+      );
       return {
         success: true,
         user: {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
-        }
+          role: user.role,
+        },
       };
     } catch (error) {
       console.error('AuthenticationService: Authentication error:', error);
       return {
         success: false,
-        error: this.createErrorMessage(error)
+        error: this.createErrorMessage(error),
       };
     }
   }

@@ -36,6 +36,6 @@ export function usePosts(): UsePostsReturn {
     posts,
     loading,
     error,
-    refetch: fetchPosts
+    refetch: fetchPosts,
   };
 }

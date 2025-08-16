@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 interface PostTitleProps {
   id?: number;
@@ -9,24 +9,24 @@ interface PostTitleProps {
   variant?: 'card' | 'detail';
 }
 
-export function PostTitle({ 
-  id, 
-  title, 
-  variant = 'card' 
+export function PostTitle({
+  id,
+  title,
+  variant = 'card',
 }: PostTitleProps): React.JSX.Element {
   const isDetail = variant === 'detail';
-  
+
   if (isDetail) {
     return (
-      <h1 className="text-xl sm:text-2xl font-bold text-blue-800 mb-4">
+      <h1 className='text-xl sm:text-2xl font-bold text-blue-800 mb-4'>
         {title}
       </h1>
     );
   }
-  
+
   return (
     <Link href={`/posts/${id}`}>
-      <h3 className="text-lg font-semibold text-blue-800 mb-2 hover:text-blue-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 rounded transition-all duration-200">
+      <h3 className='text-lg font-semibold text-blue-800 mb-2 hover:text-blue-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 rounded transition-all duration-200'>
         {title}
       </h3>
     </Link>

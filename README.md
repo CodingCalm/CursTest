@@ -14,23 +14,26 @@ En modern Next.js webbsida byggd med TypeScript och Tailwind CSS.
 
 ### Förutsättningar
 
-- Node.js 18+ 
+- Node.js 18+
 - npm
 
 ### Installation
 
 1. Klona projektet:
+
 ```bash
 git clone <repository-url>
 cd CursTest
 ```
 
 2. Installera beroenden:
+
 ```bash
 npm install
 ```
 
 3. Starta utvecklingsservern:
+
 ```bash
 npm run dev
 ```
@@ -66,4 +69,5 @@ public/                 # Statiska filer
 ## Nästa Steg
 
 Nu kan vi börja bygga webbsidan tillsammans! Vad vill du lägga till först?
+
 # Arete

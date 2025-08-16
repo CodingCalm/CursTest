@@ -15,7 +15,7 @@ export const mockUsers: MockUser[] = [
     password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // "password"
     role: 'user',
     createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01')
+    updatedAt: new Date('2024-01-01'),
   },
   {
     id: '2',
@@ -24,8 +24,8 @@ export const mockUsers: MockUser[] = [
     password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // "password"
     role: 'admin',
     createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01')
-  }
+    updatedAt: new Date('2024-01-01'),
+  },
 ];
 
 // Helper function to find user by email
@@ -39,7 +39,10 @@ export function findUserById(id: string): MockUser | undefined {
 }
 
 // Helper function to verify password
-export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
   return bcrypt.compare(password, hashedPassword);
 }
 

@@ -26,12 +26,15 @@ export class FormInput extends React.Component<FormInputProps> {
    * Get input classes based on state
    */
   private getInputClasses(): string {
-    const baseClasses = "w-full px-4 py-3 border-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 text-gray-900 placeholder-gray-500";
-    const stateClasses = this.props.error 
-      ? "border-red-300 focus:ring-red-400 focus:border-red-400" 
-      : "border-gray-300 focus:ring-gray-400 focus:border-gray-400";
-    const disabledClasses = this.props.disabled ? "bg-gray-50 cursor-not-allowed" : "";
-    
+    const baseClasses =
+      'w-full px-4 py-3 border-2 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 text-gray-900 placeholder-gray-500';
+    const stateClasses = this.props.error
+      ? 'border-red-300 focus:ring-red-400 focus:border-red-400'
+      : 'border-gray-300 focus:ring-gray-400 focus:border-gray-400';
+    const disabledClasses = this.props.disabled
+      ? 'bg-gray-50 cursor-not-allowed'
+      : '';
+
     return `${baseClasses} ${stateClasses} ${disabledClasses}`;
   }
 
@@ -46,19 +49,23 @@ export class FormInput extends React.Component<FormInputProps> {
       error,
       disabled = false,
       autoComplete,
-      ariaDescribedBy
+      ariaDescribedBy,
     } = this.props;
 
     return (
-      <div className="space-y-1">
-        <label 
+      <div className='space-y-1'>
+        <label
           htmlFor={id}
-          className="block text-base font-semibold text-gray-900"
+          className='block text-base font-semibold text-gray-900'
         >
           {label}
-          {required && <span className="text-red-600 ml-1" aria-label="obligatoriskt">*</span>}
+          {required && (
+            <span className='text-red-600 ml-1' aria-label='obligatoriskt'>
+              *
+            </span>
+          )}
         </label>
-        
+
         <input
           id={id}
           type={type}
@@ -73,13 +80,13 @@ export class FormInput extends React.Component<FormInputProps> {
           aria-invalid={!!error}
           aria-required={required}
         />
-        
+
         {error && (
-          <div 
+          <div
             id={`${id}-error`}
-            className="text-sm text-red-700 font-medium"
-            role="alert"
-            aria-live="polite"
+            className='text-sm text-red-700 font-medium'
+            role='alert'
+            aria-live='polite'
           >
             {error}
           </div>

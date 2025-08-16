@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   try {
     // Kontrollera autentisering
     const session = await auth();
-    
+
     if (!session?.user) {
       return NextResponse.json(
         { error: 'Du måste vara inloggad för att skapa inlägg' },
@@ -26,9 +26,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Använd användarens sammanfattning eller skapa en från innehållet
-    const finalSummary = summary?.trim() || (content.length > 150 
-      ? content.substring(0, 150) + "..."
-      : content);
+    const finalSummary =
+      summary?.trim() ||
+      (content.length > 150 ? content.substring(0, 150) + '...' : content);
 
     // Här skulle du normalt spara till databas
     // För nu returnerar vi bara en simulering
@@ -43,21 +43,20 @@ export async function POST(request: NextRequest) {
       timeAgo: 'Nu',
       nominations: 0,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
 
     // Simulera lite fördröjning
     await new Promise(resolve => setTimeout(resolve, 500));
 
     return NextResponse.json(
-      { 
-        success: true, 
+      {
+        success: true,
         post: newPost,
-        message: 'Inlägg skapat framgångsrikt'
+        message: 'Inlägg skapat framgångsrikt',
       },
       { status: 201 }
     );
-
   } catch (error) {
     console.error('Error creating post:', error);
     return NextResponse.json(

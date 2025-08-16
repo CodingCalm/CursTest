@@ -1,9 +1,9 @@
 /**
  * NextAuth.js API Route Configuration
- * 
+ *
  * This file configures NextAuth.js for email/password authentication
  * using our custom AuthenticationService for business logic.
- * 
+ *
  * Features:
  * - Email/password authentication
  * - JWT session strategy
@@ -34,7 +34,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
+        password: { label: 'Password', type: 'password' },
       },
       /**
        * Authorize user with email and password
@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const result = await authService.authenticateUser({
             email: credentials.email as string,
-            password: credentials.password as string
+            password: credentials.password as string,
           });
 
           if (!result.success || !result.user) {
@@ -62,14 +62,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             id: result.user.id,
             email: result.user.email,
             name: result.user.name,
-            role: result.user.role
+            role: result.user.role,
           };
         } catch (error) {
           console.error('NextAuth: Authorization error:', error);
           return null;
         }
-      }
-    })
+      },
+    }),
   ],
   session: {
     strategy: 'jwt',
@@ -99,7 +99,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         console.error('NextAuth: Session callback error:', error);
         return session;
       }
-    }
+    },
   },
   secret: authConfig.getSecret(),
   debug: process.env.NODE_ENV === 'development',

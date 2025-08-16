@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts       Post[]
+  votes       Vote[]
+  comments    Comment[]
+  nominations Nomination[]
+
+  @@map("users")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  summary   String
+  authorId  String
+  upvotes   Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  votes       Vote[]
+  comments    Comment[]
+  nominations Nomination[]
+  forslag     Forslag[]
+
+  @@map("posts")
+}
+
+model Vote {
+  id        Int           @id @default(autoincrement())
+  postId    Int
+  userId    String
+  direction VoteDirection
+  createdAt DateTime      @default(now())
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("votes")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  postId    Int
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Nomination {
+  id        Int      @id @default(autoincrement())
+  postId    Int
+  userId    String
+  createdAt DateTime @default(now())
+
+  // Relations
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("nominations")
+}
+
+model Forslag {
+  id             Int      @id @default(autoincrement())
+  title          String
+  introduction   String
+  summary        String
+  background     String
+  arguments      String[] // PostgreSQL array
+  conclusion     String
+  originalPostId Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  originalPost Post @relation(fields: [originalPostId], references: [id], onDelete: Cascade)
+
+  @@map("forslag")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum VoteDirection {
+  UP
+  DOWN
+}

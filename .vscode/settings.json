@@ -1,0 +1,30 @@
+{
+  "files.associations": {
+    "*.prisma": "prisma"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "prisma.format.enable": true,
+  "prisma.validate.enable": true,
+  "prisma.completion.enable": true,
+  "prisma.hover.enable": true,
+  "prisma.goToDefinition.enable": true,
+  "prisma.findReferences.enable": true,
+  "prisma.rename.enable": true,
+  "prisma.documentFormatting.enable": true,
+  "prisma.documentRangeFormatting.enable": true,
+  "prisma.folding.enable": true,
+  "prisma.syntaxHighlighting.enable": true,
+  "prisma.semanticHighlighting.enable": true,
+  "prisma.inlayHints.enable": true,
+  "prisma.codeActions.enable": true,
+  "prisma.diagnostics.enable": true,
+  "prisma.telemetry.enable": false
+}

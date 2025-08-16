@@ -19,10 +19,17 @@ export class MockPostService implements PostService {
 
   async createPost(postData: Omit<Post, 'id'>): Promise<Post> {
     await this.simulateDelay();
-    
+
     // Validate required fields
-    if (!postData.title || !postData.content || !postData.summary || !postData.author) {
-      throw new Error('Missing required fields: title, content, summary, and author are required');
+    if (
+      !postData.title ||
+      !postData.content ||
+      !postData.summary ||
+      !postData.author
+    ) {
+      throw new Error(
+        'Missing required fields: title, content, summary, and author are required'
+      );
     }
 
     const newPost: Post = {
@@ -31,36 +38,36 @@ export class MockPostService implements PostService {
       upvotes: postData.upvotes || 0,
       comments: postData.comments || 0,
       nominations: postData.nominations || 0,
-      timeAgo: postData.timeAgo || 'Nu'
+      timeAgo: postData.timeAgo || 'Nu',
     };
-    
+
     this.posts.push(newPost);
     return { ...newPost };
   }
 
   async updatePost(id: number, updates: Partial<Post>): Promise<Post> {
     await this.simulateDelay();
-    
+
     const index = this.posts.findIndex(p => p.id === id);
     if (index === -1) {
       throw new Error(`Post with id ${id} not found`);
     }
-    
+
     // Don't allow updating the ID
     const { id: _, ...safeUpdates } = updates;
-    
+
     this.posts[index] = { ...this.posts[index], ...safeUpdates };
     return { ...this.posts[index] };
   }
 
   async deletePost(id: number): Promise<boolean> {
     await this.simulateDelay();
-    
+
     const index = this.posts.findIndex(p => p.id === id);
     if (index === -1) {
       return false;
     }
-    
+
     this.posts.splice(index, 1);
     return true;
   }
@@ -69,7 +76,7 @@ export class MockPostService implements PostService {
     if (nominations < 0) {
       throw new Error('Nominations cannot be negative');
     }
-    
+
     return this.updatePost(id, { nominations });
   }
 

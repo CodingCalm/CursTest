@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import { ForslagCard } from "@/components";
-import { mockForslag } from "@/data";
+import React from 'react';
+import { ForslagCard } from '@/components';
+import { mockForslag } from '@/data';
 
 export default function PropositionsPage(): React.JSX.Element {
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-
-        
-        <div className="space-y-6">
-          {mockForslag.map((forslag) => (
-            <ForslagCard 
+    <div className='bg-gray-50 min-h-screen'>
+      <div className='max-w-4xl mx-auto px-4 py-8'>
+        <div className='space-y-6'>
+          {mockForslag.map(forslag => (
+            <ForslagCard
               key={forslag.id}
               id={forslag.id}
               title={forslag.title}

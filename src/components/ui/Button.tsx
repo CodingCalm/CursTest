@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -24,24 +24,25 @@ export default function Button({
   'aria-pressed': ariaPressed,
   ...props
 }: ButtonProps): React.JSX.Element {
-  const baseClasses = 'inline-flex items-center justify-center rounded font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed';
-  
+  const baseClasses =
+    'inline-flex items-center justify-center rounded font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed';
+
   const variantClasses = {
     primary: 'bg-gray-900 text-white hover:bg-gray-800',
     secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
     danger: 'bg-red-600 text-white hover:bg-red-700',
     success: 'bg-green-600 text-white hover:bg-green-700',
-    ghost: 'text-gray-700 hover:bg-gray-100'
+    ghost: 'text-gray-700 hover:bg-gray-100',
   };
-  
+
   const sizeClasses = {
     sm: 'px-2 py-1 text-xs',
     md: 'px-3 py-2 text-sm',
-    lg: 'px-4 py-2 text-base'
+    lg: 'px-4 py-2 text-base',
   };
-  
+
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
-  
+
   return (
     <button
       type={type}

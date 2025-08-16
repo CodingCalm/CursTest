@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 
-export type SortOption = 'newest' | 'oldest' | 'mostUpvotes' | 'leastUpvotes' | 'mostComments';
+export type SortOption =
+  | 'newest'
+  | 'oldest'
+  | 'mostUpvotes'
+  | 'leastUpvotes'
+  | 'mostComments';
 
 interface SortingState {
   currentSort: SortOption;
@@ -10,11 +15,11 @@ interface SortingState {
 
 export const useSortingStore = create<SortingState>((set, get) => ({
   currentSort: 'newest',
-  
+
   setSort: (sort: SortOption) => {
     set({ currentSort: sort });
   },
-  
+
   getSortLabel: (sort: SortOption): string => {
     switch (sort) {
       case 'newest':
@@ -30,5 +35,5 @@ export const useSortingStore = create<SortingState>((set, get) => ({
       default:
         return 'Nyast först';
     }
-  }
+  },
 }));

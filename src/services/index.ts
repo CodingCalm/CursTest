@@ -1,19 +1,24 @@
-// Authentication Services
-export { AuthenticationService } from './auth/AuthenticationService';
-export type { AuthenticationResult, Credentials } from './auth/AuthenticationService';
+// Service layer exports
+// Switch between mock and database services here
 
-// Configuration
-export { AuthConfig } from '../config/auth.config';
-
-// Legacy Services (for backward compatibility)
-import { PostService, ForslagService } from '@/types/post';
 import { MockPostService } from './mock-post-service';
+import { PrismaPostService } from './prisma-post-service';
 import { MockForslagService } from './mock-forslag-service';
+import { PostService } from '@/types/post';
+import { ForslagService } from '@/types/post';
 
-// Current implementation using mock data
-export const postService: PostService = new MockPostService();
-export const forslagService: ForslagService = new MockForslagService();
+// Configuration: Set to 'mock' or 'prisma'
+const SERVICE_MODE = process.env.SERVICE_MODE || 'mock';
 
-// Export for testing
-export { MockPostService } from './mock-post-service';
-export { MockForslagService } from './mock-forslag-service';
+// Post Service
+let postService: PostService;
+if (SERVICE_MODE === 'prisma') {
+  postService = new PrismaPostService();
+} else {
+  postService = new MockPostService();
+}
+
+// Forslag Service (still using mock for now)
+const forslagService: ForslagService = new MockForslagService();
+
+export { postService, forslagService };

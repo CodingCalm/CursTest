@@ -13,18 +13,21 @@ Denna funktionalitet låter inloggade användare skapa nya inlägg i "Öppet Sam
 ## 🚀 Funktioner
 
 ### **1. "Skapa inlägg" Knapp**
+
 - **Placering**: Öppet Samtal sidan, bredvid sorteringsknappen
 - **Visas endast för**: Inloggade användare
 - **Styling**: Blå knapp med hover-effekt
 - **WCAG-kompatibel**: Proper aria-label och focus states
 
 ### **2. Skapa Inlägg Sida**
+
 - **URL**: `/posts/create`
 - **Skydd**: Middleware + komponent-validering
 - **Formulär**: Titel och innehåll (obligatoriska)
 - **Förhandsvisning**: Automatisk sammanfattning
 
 ### **3. Formulärfunktioner**
+
 - **Titel**: Textfält för inläggets titel
 - **Innehåll**: Stort textområde för inläggets innehåll
 - **Sammanfattning**: Genereras automatiskt från innehållet
@@ -56,6 +59,7 @@ src/
 ### **Frontend Komponenter**
 
 #### **Torget.tsx (Uppdaterad)**
+
 ```typescript
 // Lägger till "Skapa inlägg" knapp för inloggade användare
 {session && (
@@ -70,6 +74,7 @@ src/
 ```
 
 #### **CreatePostForm.tsx**
+
 ```typescript
 // Huvudformulärkomponent med:
 - Session validering
@@ -83,6 +88,7 @@ src/
 ### **Backend API**
 
 #### **/api/posts (POST)**
+
 ```typescript
 // API-route som:
 - Validerar autentisering
@@ -93,16 +99,18 @@ src/
 ```
 
 ### **Middleware**
+
 ```typescript
 // Skyddar /posts/create med NextAuth
 export const config = {
-  matcher: ["/posts/create"]
+  matcher: ['/posts/create'],
 };
 ```
 
 ## 🎨 Användargränssnitt
 
 ### **Öppet Samtal Sidan**
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │ Öppet Samtal                    [Skapa inlägg] [Sortera]│
@@ -114,6 +122,7 @@ export const config = {
 ```
 
 ### **Skapa Inlägg Sida**
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    Skapa nytt inlägg                    │
@@ -140,21 +149,25 @@ export const config = {
 ## 🔄 Användarflöde
 
 ### **1. Inloggad användare**
+
 1. Besöker Öppet Samtal sidan
 2. Ser "Skapa inlägg" knappen
 3. Klickar på knappen
 
 ### **2. Skapa inlägg**
+
 1. Fyller i titel och innehåll
 2. Ser förhandsvisning av sammanfattning
 3. Klickar "Skapa inlägg"
 
 ### **3. Efter skapande**
+
 1. Omdirigeras till Öppet Samtal
 2. Ser sitt nya inlägg i listan
 3. Kan interagera med inlägget
 
 ### **4. Ej inloggad användare**
+
 1. Ser inte "Skapa inlägg" knappen
 2. Om de försöker besöka `/posts/create` direkt:
    - Middleware blockerar åtkomst
@@ -163,16 +176,19 @@ export const config = {
 ## 🛡️ Säkerhet
 
 ### **Autentiseringsskydd**
+
 - **Middleware**: Skyddar `/posts/create` på server-nivå
 - **Komponent-validering**: Kontrollerar session i komponenter
 - **API-skydd**: Validerar session i API-route
 
 ### **Input Validering**
+
 - **Client-side**: Realtidsvalidering i formuläret
 - **Server-side**: Validering i API-route
 - **Sanitization**: Rensar input från skadlig kod
 
 ### **Felhantering**
+
 - **Användarvänliga felmeddelanden**
 - **Proper HTTP status codes**
 - **Logging av fel**
@@ -180,17 +196,20 @@ export const config = {
 ## 🎯 WCAG-åtkomstbarhet
 
 ### **Formuläråtkomstbarhet**
+
 - **Labels**: Alla fält har proper labels
 - **Aria-describedby**: Hjälptext kopplad till fält
 - **Focus management**: Proper focus states
 - **Error handling**: Aria-live för felmeddelanden
 
 ### **Knappåtkomstbarhet**
+
 - **Aria-label**: Beskrivande labels
 - **Focus-visible**: Synliga focus rings
 - **Keyboard navigation**: Fullständig tangentbordsstöd
 
 ### **Semantisk HTML**
+
 - **Proper headings**: H1, H2 struktur
 - **Form elements**: Semantic form markup
 - **Landmarks**: Proper ARIA landmarks
@@ -198,6 +217,7 @@ export const config = {
 ## 🚀 Framtida Förbättringar
 
 ### **Planerade Features**
+
 1. **Rich text editor**: Formatering av innehåll
 2. **Bilduppladdning**: Bilder i inlägg
 3. **Draft saving**: Spara utkast
@@ -205,6 +225,7 @@ export const config = {
 5. **Categories/tags**: Kategorisering av inlägg
 
 ### **Tekniska Förbättringar**
+
 1. **Real-time validation**: Live validering
 2. **Auto-save**: Automatisk sparande
 3. **Image optimization**: Optimerade bilder

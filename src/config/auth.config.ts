@@ -4,8 +4,10 @@ export class AuthConfig {
   private readonly url: string;
 
   private constructor() {
-    this.secret = process.env.NEXTAUTH_SECRET || "001d861c33f9d79a558db7035cada2f8e672bccb9304c97314ac332052a8019f";
-    this.url = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    this.secret =
+      process.env.NEXTAUTH_SECRET ||
+      '001d861c33f9d79a558db7035cada2f8e672bccb9304c97314ac332052a8019f';
+    this.url = process.env.NEXTAUTH_URL || 'http://localhost:3000';
   }
 
   /**

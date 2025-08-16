@@ -8,9 +8,9 @@ interface NominationState {
 
 export const useNominationStore = create<NominationState>((set, get) => ({
   nominatedPosts: new Set(),
-  
+
   toggleNomination: (postId: number) => {
-    set((state) => {
+    set(state => {
       const newSet = new Set(state.nominatedPosts);
       if (newSet.has(postId)) {
         newSet.delete(postId);
@@ -21,7 +21,7 @@ export const useNominationStore = create<NominationState>((set, get) => ({
     });
     console.log('Nominering toggled for post', postId);
   },
-  
+
   isNominated: (postId: number) => {
     return get().nominatedPosts.has(postId);
   },

@@ -18,38 +18,38 @@ interface VotingState {
 
 export const useVotingStore = create<VotingState>((set, get) => ({
   votes: new Map(),
-  
+
   initializePost: (postId: number, initialUpvotes: number) => {
-    set((state) => {
+    set(state => {
       const newVotes = new Map(state.votes);
       const existingVote = newVotes.get(postId);
-      
+
       if (!existingVote) {
         newVotes.set(postId, {
           postId,
           initialUpvotes,
           voteChange: 0,
-          userVote: null
+          userVote: null,
         });
       }
-      
+
       return { votes: newVotes };
     });
   },
-  
+
   votePost: (postId: number, direction: 'up' | 'down') => {
-    set((state) => {
+    set(state => {
       const newVotes = new Map(state.votes);
       const currentVote = newVotes.get(postId);
       let newVoteChange: number;
       let newUserVote: 'up' | 'down' | null;
-      
+
       if (!currentVote) {
         // This shouldn't happen if initializePost is called properly
         console.warn(`Vote state not initialized for post ${postId}`);
         return state;
       }
-      
+
       // Existing vote
       if (currentVote.userVote === direction) {
         // Remove vote (clicking same direction)
@@ -64,36 +64,36 @@ export const useVotingStore = create<VotingState>((set, get) => ({
         newVoteChange = currentVote.voteChange + (direction === 'up' ? 2 : -2);
         newUserVote = direction;
       }
-      
+
       newVotes.set(postId, {
         postId,
         initialUpvotes: currentVote.initialUpvotes,
         voteChange: newVoteChange,
-        userVote: newUserVote
+        userVote: newUserVote,
       });
       return { votes: newVotes };
     });
-    
+
     console.log(`Voted ${direction} on post ${postId}`);
   },
-  
+
   getVoteState: (postId: number): VoteState => {
     const state = get();
     const voteState = state.votes.get(postId);
-    
+
     if (!voteState) {
       // Return default state if no votes yet
       return {
         postId,
         initialUpvotes: 0,
         voteChange: 0,
-        userVote: null
+        userVote: null,
       };
     }
-    
+
     return voteState;
   },
-  
+
   getUpvotes: (postId: number): number => {
     const voteState = get().getVoteState(postId);
     return voteState.initialUpvotes + voteState.voteChange;

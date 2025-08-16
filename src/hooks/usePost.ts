@@ -36,6 +36,6 @@ export function usePost(postId: number): UsePostReturn {
     post,
     loading,
     error,
-    refetch: fetchPost
+    refetch: fetchPost,
   };
 }
