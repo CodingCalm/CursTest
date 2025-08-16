@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { auth } from '@/app/api/auth/[...nextauth]/route';
 
 export async function POST(request: NextRequest) {
