@@ -6,6 +6,7 @@ import Link from "next/link";
 import { mockForslag } from "@/data";
 import { type Forslag } from "@/types/post";
 import { PostCard } from "@/components";
+import { VotingBar } from "@/components/ui";
 import { usePosts } from "@/hooks";
 
 interface ForslagPageProps {
@@ -106,19 +107,17 @@ function ForslagDetail({ forslag }: { forslag: Forslag }) {
         {/* Action Section */}
         <div className="mt-8 pt-6 border-t border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Vad händer härnäst?</h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 mb-6">
             Detta medborgarförslag kommer att granskas av experter och beslutsfattare. 
             Baserat på feedback och ytterligare analys kan det utvecklas vidare eller 
             implementeras som policy.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link 
-              href="/voting"
-              className="inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-900 rounded-md hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50"
-            >
-              Rösta på förslaget
-            </Link>
-          </div>
+          
+          {/* Separator line */}
+          <div className="border-t border-gray-200 mb-6"></div>
+          
+          {/* Voting Bar - integrated into the main card */}
+          <VotingBar upvotes={15} downvotes={8} className="border-0 shadow-none bg-transparent" />
         </div>
       </div>
     </article>
