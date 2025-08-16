@@ -54,7 +54,7 @@ function NavItem({ href, label }: { href: string; label: string }) {
     <li>
       <a
         href={href}
-        className="text-gray-700 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 whitespace-nowrap"
+        className="text-gray-700 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 whitespace-nowrap"
         aria-current={href === "/" ? "page" : undefined}
       >
         {label}
