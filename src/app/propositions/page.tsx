@@ -9,8 +9,7 @@ export default function PropositionsPage(): React.JSX.Element {
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Förslag</h1>
-          <p className="text-gray-600">Förslag baserade på nominerade inlägg från torget</p>
+          <h1 className="text-3xl font-bold text-gray-900">Förslag</h1>
         </header>
         
         <div className="space-y-6">

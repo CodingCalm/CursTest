@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { mockForslag } from "@/data";
 import { type Forslag } from "@/types/post";
+import { PostCard } from "@/components";
+import { usePosts } from "@/hooks";
 
 interface ForslagPageProps {
   params: Promise<{
@@ -31,6 +33,7 @@ export default function ForslagPage({ params }: ForslagPageProps): React.JSX.Ele
       <div className="w-full max-w-2xl px-4">
         <BackButton />
         <ForslagDetail forslag={forslag} />
+        <RelatedDiscussionsSection originalPostId={forslag.originalPostId} />
       </div>
     </div>
   );
@@ -61,12 +64,6 @@ function ForslagDetail({ forslag }: { forslag: Forslag }) {
           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
             Medborgarförslag #{forslag.id}
           </span>
-          <Link 
-            href={`/posts/${forslag.originalPostId}`}
-            className="ml-3 text-sm text-gray-500 hover:text-blue-600 transition-colors duration-200 underline"
-          >
-            Baserat på inlägg #{forslag.originalPostId}
-          </Link>
         </div>
         
         {/* Title */}
@@ -123,14 +120,8 @@ function ForslagDetail({ forslag }: { forslag: Forslag }) {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link 
-              href={`/posts/${forslag.originalPostId}`}
-              className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
-            >
-              Läs ursprunglig diskussion
-            </Link>
-            <Link 
               href="/voting"
-              className="inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-900 rounded-md hover:bg-gray-300 transition-colors duration-200"
+              className="inline-flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-900 rounded-md hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50"
             >
               Rösta på förslaget
             </Link>
@@ -138,5 +129,63 @@ function ForslagDetail({ forslag }: { forslag: Forslag }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function RelatedDiscussionsSection({ originalPostId }: { originalPostId: number }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { posts, loading } = usePosts();
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  // Find the original post
+  const originalPost = posts?.find(post => post.id === originalPostId);
+
+  return (
+    <div className="mt-6">
+      <button
+        onClick={toggleExpanded}
+        className="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-lg transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 hover:bg-gray-50"
+        aria-expanded={isExpanded}
+        aria-controls="related-discussions-content"
+      >
+        <span className="text-lg font-semibold text-gray-900">
+          Relaterade diskussioner
+        </span>
+        <svg
+          className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div
+        id="related-discussions-content"
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="mt-4">
+          {loading ? (
+            <div className="text-center py-4">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 mx-auto"></div>
+              <p className="mt-2 text-sm text-gray-600">Laddar diskussioner...</p>
+            </div>
+          ) : originalPost ? (
+            <PostCard {...originalPost} />
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-gray-600">Ingen relaterad diskussion hittad</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
