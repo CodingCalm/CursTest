@@ -9,13 +9,15 @@ interface VotingSectionProps {
   comments: number;
   postId: number;
   showComments?: boolean;
+  allowNomination?: boolean;
 }
 
 export function VotingSection({ 
   upvotes, 
   comments, 
   postId, 
-  showComments = true 
+  showComments = true,
+  allowNomination = true
 }: VotingSectionProps): React.JSX.Element {
   const { isNominated, toggleNomination } = useNominationStore();
   const { initializePost, getUpvotes } = useVotingStore();
@@ -30,7 +32,9 @@ export function VotingSection({
   const displayUpvotes = getUpvotes(postId);
 
   const handleNomination = () => {
-    toggleNomination(postId);
+    if (allowNomination) {
+      toggleNomination(postId);
+    }
   };
 
   return (
@@ -57,6 +61,7 @@ export function VotingSection({
         <NominationButton 
           isNominated={nominated}
           onToggle={handleNomination}
+          disabled={!allowNomination}
         />
       </div>
     </div>

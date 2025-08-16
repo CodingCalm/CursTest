@@ -30,7 +30,7 @@ export default function PostPage({ params }: PostPageProps): React.JSX.Element {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex justify-center items-start pt-8 pb-8">
+      <div className="bg-gray-50 min-h-screen flex justify-center items-start pt-8 pb-8">
         <div className="w-full max-w-2xl px-4">
           <div className="text-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
@@ -43,7 +43,7 @@ export default function PostPage({ params }: PostPageProps): React.JSX.Element {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 flex justify-center items-start pt-8 pb-8">
+      <div className="bg-gray-50 min-h-screen flex justify-center items-start pt-8 pb-8">
         <div className="w-full max-w-2xl px-4">
           <div className="text-center py-8">
             <p className="text-red-600">{error || 'Inlägg hittades inte'}</p>
@@ -60,7 +60,7 @@ export default function PostPage({ params }: PostPageProps): React.JSX.Element {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center items-start pt-8 pb-8">
+    <div className="bg-gray-50 min-h-screen flex justify-center items-start pt-8 pb-8">
       <div className="w-full max-w-2xl px-4">
         <BackButton />
         <PostDetail post={post} />

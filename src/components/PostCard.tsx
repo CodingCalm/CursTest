@@ -29,7 +29,7 @@ export default function PostCard({
         <PostContent content={content} variant="card" />
         <PostActions comments={comments} variant="card" />
       </div>
-      <VotingSection upvotes={upvotes} comments={comments} postId={id} showComments={true} />
+      <VotingSection upvotes={upvotes} comments={comments} postId={id} showComments={true} allowNomination={false} />
     </article>
   );
 }

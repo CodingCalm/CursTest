@@ -1,24 +1,8 @@
 import React from "react";
-import { SkipLink, Header, Footer } from "@/components";
 
 export default function VotingPage(): React.JSX.Element {
   return (
-    <div className="min-h-screen flex flex-col" role="application" aria-label="Votering">
-      <SkipLink />
-      <Header />
-      <MainContentWrapper />
-      <Footer />
-    </div>
-  );
-}
-
-function MainContentWrapper() {
-  return (
-    <div 
-      className="flex-1 bg-gray-50 flex justify-center items-center pt-8 pb-8" 
-      role="region" 
-      aria-label="Huvudinnehåll"
-    >
+    <div className="bg-gray-50 min-h-screen flex justify-center items-start pt-8 pb-8" role="region" aria-label="Huvudinnehåll">
       <div className="w-full max-w-4xl px-4">
         <PageHeader />
         <ContentPlaceholder />
@@ -34,7 +18,7 @@ function PageHeader() {
         Votering
       </h1>
       <p className="text-xl text-gray-600">
-        Rösta på aktiva förslag och propositioner
+        Rösta på aktiva förslag och förslag
       </p>
     </div>
   );

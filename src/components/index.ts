@@ -7,6 +7,7 @@ export { VotingSection } from "./VotingSection";
 export { VoteButton } from "./VoteButton";
 export { CommentDisplay } from "./CommentDisplay";
 export { NominationButton } from "./NominationButton";
+export { ForslagCard } from "./PropositionCard";
 
 // Post Components
 export * from "./post";

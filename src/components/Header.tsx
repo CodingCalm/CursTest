@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Header(): React.JSX.Element {
@@ -17,7 +20,7 @@ export default function Header(): React.JSX.Element {
 function Logo() {
   return (
     <div className="flex-shrink-0">
-      <a href="/" className="flex items-center" aria-label="Gå till öppet samtal">
+      <Link href="/" className="flex items-center" aria-label="Gå till torget">
         <Image
           src="/images/arete-logo.png"
           alt="Arete Logo"
@@ -26,15 +29,15 @@ function Logo() {
           className="h-10 sm:h-12 md:h-16 w-auto"
           priority
         />
-      </a>
+      </Link>
     </div>
   );
 }
 
 function Navigation() {
   const navItems = [
-    { href: "/", label: "Öppet samtal" },
-    { href: "/propositions", label: "Propositioner" },
+    { href: "/", label: "Torget" },
+    { href: "/propositions", label: "Förslag" },
     { href: "/voting", label: "Votering" }
   ];
 
@@ -52,13 +55,13 @@ function Navigation() {
 function NavItem({ href, label }: { href: string; label: string }) {
   return (
     <li>
-      <a
+      <Link
         href={href}
         className="text-gray-700 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50 whitespace-nowrap"
         aria-current={href === "/" ? "page" : undefined}
       >
         {label}
-      </a>
+      </Link>
     </li>
   );
 }
