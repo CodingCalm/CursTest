@@ -13,7 +13,7 @@ export function RelatedPropositions({ postId }: RelatedPropositionsProps): React
   const relatedPropositions = mockForslag.filter(forslag => forslag.originalPostId === postId);
 
   if (relatedPropositions.length === 0) {
-    return null;
+    return <></>;
   }
 
   return (
@@ -35,7 +35,7 @@ function RelatedPropositionCard({ proposition }: { proposition: any }): React.JS
     >
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
+          <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors duration-200">
             {proposition.title}
           </h3>
           <p className="text-sm text-gray-600 line-clamp-3">

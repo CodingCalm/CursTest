@@ -22,3 +22,26 @@ export interface PostService {
   deletePost(id: number): Promise<boolean>;
   updateNominations(id: number, nominations: number): Promise<Post>;
 }
+
+// Forslag types and service interface
+export interface Forslag {
+  id: number;
+  title: string;
+  introduction: string;
+  summary: string;
+  background: string;
+  arguments: string[];
+  conclusion: string;
+  originalPostId: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ForslagService {
+  getAllForslag(): Promise<Forslag[]>;
+  getForslagById(id: number): Promise<Forslag | null>;
+  getForslagByPostId(postId: number): Promise<Forslag[]>;
+  createForslag(forslag: Omit<Forslag, 'id'>): Promise<Forslag>;
+  updateForslag(id: number, updates: Partial<Forslag>): Promise<Forslag>;
+  deleteForslag(id: number): Promise<boolean>;
+}

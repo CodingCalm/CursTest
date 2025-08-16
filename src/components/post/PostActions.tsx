@@ -11,7 +11,7 @@ export function PostActions({
   comments, 
   variant = 'card' 
 }: PostActionsProps): React.JSX.Element {
-  // Currently returns null as per user requirements
+  // Currently returns empty fragment as per user requirements
   // This component can be extended in the future for additional actions
-  return null;
+  return <></>;
 }

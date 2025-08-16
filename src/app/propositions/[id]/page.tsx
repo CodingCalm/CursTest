@@ -3,7 +3,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { mockForslag, type Forslag } from "@/data";
+import { mockForslag } from "@/data";
+import { type Forslag } from "@/types/post";
 
 interface ForslagPageProps {
   params: Promise<{

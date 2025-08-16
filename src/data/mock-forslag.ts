@@ -1,15 +1,4 @@
-export interface Forslag {
-  id: number;
-  title: string;
-  introduction: string;
-  summary: string;
-  background: string;
-  arguments: string[];
-  conclusion: string;
-  originalPostId: number;
-  created_at?: string;
-  updated_at?: string;
-}
+import { Forslag } from '@/types/post';
 
 export const mockForslagData: Forslag[] = [
   {
