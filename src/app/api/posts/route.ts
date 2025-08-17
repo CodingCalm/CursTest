@@ -1,4 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { PrismaPostService } from '@/services/prisma-post-service';
+
+// GET route to fetch all posts
+export async function GET() {
+  try {
+    const postService = new PrismaPostService();
+    const posts = await postService.getAllPosts();
+
+    return NextResponse.json({
+      success: true,
+      posts,
+    });
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return NextResponse.json(
+      { error: 'Kunde inte hämta inlägg' },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {

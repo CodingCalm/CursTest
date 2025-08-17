@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Post } from '@/types';
-import { postService } from '@/services';
 
 interface UsePostsReturn {
   posts: Post[];
@@ -24,15 +23,31 @@ export function usePosts(): UsePostsReturn {
       setLoading(true);
       setError(null);
 
+      // Clear cache temporarily to force fresh data
+      postsCache = null;
+
       // Check cache first
       const now = Date.now();
       if (postsCache && now - cacheTimestamp < CACHE_DURATION) {
+        console.log('📦 Using cached posts:', postsCache.length, 'posts');
         setPosts(postsCache);
         setLoading(false);
         return;
       }
 
-      const fetchedPosts = await postService.getAllPosts();
+      console.log('🔄 Fetching fresh posts from API...');
+
+      // Fetch from API route instead of service directly
+      const response = await fetch('/api/posts');
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+
+      const data = await response.json();
+      const fetchedPosts = data.posts;
+
+      console.log('📊 Fetched posts from API:', fetchedPosts.length, 'posts');
+      console.log('📊 First post:', fetchedPosts[0]);
 
       // Update cache
       postsCache = fetchedPosts;

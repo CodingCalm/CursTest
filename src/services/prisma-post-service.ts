@@ -5,6 +5,7 @@ import { NotFoundError, ValidationError } from '@/types/errors';
 export class PrismaPostService implements PostService {
   async getAllPosts(): Promise<Post[]> {
     try {
+      console.log('🗄️ PrismaPostService: Fetching posts from database...');
       const posts = await prisma.post.findMany({
         include: {
           author: {
@@ -21,7 +22,14 @@ export class PrismaPostService implements PostService {
         },
       });
 
-      return posts.map(post => ({
+      console.log(
+        '🗄️ PrismaPostService: Raw posts from database:',
+        posts.length,
+        'posts'
+      );
+      console.log('🗄️ PrismaPostService: First raw post:', posts[0]);
+
+      const mappedPosts = posts.map(post => ({
         id: post.id,
         title: post.title,
         content: post.content,
@@ -34,6 +42,15 @@ export class PrismaPostService implements PostService {
         created_at: post.createdAt.toISOString(),
         updated_at: post.updatedAt.toISOString(),
       }));
+
+      console.log(
+        '🗄️ PrismaPostService: Mapped posts:',
+        mappedPosts.length,
+        'posts'
+      );
+      console.log('🗄️ PrismaPostService: First mapped post:', mappedPosts[0]);
+
+      return mappedPosts;
     } catch (error) {
       console.error('Error fetching posts:', error);
       throw new Error('Kunde inte hämta inlägg från databasen');
