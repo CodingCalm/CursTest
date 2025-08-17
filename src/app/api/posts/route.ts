@@ -50,24 +50,22 @@ export async function POST(request: NextRequest) {
       summary?.trim() ||
       (content.length > 150 ? content.substring(0, 150) + '...' : content);
 
-    // Här skulle du normalt spara till databas
-    // För nu returnerar vi bara en simulering
-    const newPost = {
-      id: Date.now(), // Simulerat ID
+    // Skapa post med PrismaPostService
+    const postService = new PrismaPostService();
+    const newPost = await postService.createPost({
       title: title.trim(),
       content: content.trim(),
       summary: finalSummary,
       author: session.user.name || session.user.email || 'Anonym',
       upvotes: 0,
       comments: 0,
-      timeAgo: 'Nu',
       nominations: 0,
+      timeAgo: 'Nu',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-    };
+    });
 
-    // Simulera lite fördröjning
-    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('✅ Post created in database:', newPost.id);
 
     return NextResponse.json(
       {

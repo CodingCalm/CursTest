@@ -22,6 +22,8 @@ export function CreatePostForm(): React.JSX.Element {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [notificationId, setNotificationId] = useState<string>('');
 
   // Redirect if not authenticated
   if (status === 'loading') {
@@ -52,7 +54,12 @@ export function CreatePostForm(): React.JSX.Element {
   const handleInputChange =
     (field: keyof CreatePostFormData) => (value: string) => {
       setFormData(prev => ({ ...prev, [field]: value }));
-      setError(null);
+      // Clear notifications when user starts typing
+      if (error || success) {
+        setError(null);
+        setSuccess(null);
+        setNotificationId('');
+      }
     };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -65,6 +72,8 @@ export function CreatePostForm(): React.JSX.Element {
 
     setIsSubmitting(true);
     setError(null);
+    setSuccess(null);
+    setNotificationId('');
 
     try {
       const response = await fetch('/api/posts', {
@@ -85,10 +94,24 @@ export function CreatePostForm(): React.JSX.Element {
         throw new Error(data.error || 'Ett fel uppstod');
       }
 
-      // Omdirigera till startsidan efter framgångsrik skapelse
-      router.push('/');
-      router.refresh();
+      // Visa framgångsmeddelande med unikt ID för screen readers
+      const successId = `success-${Date.now()}`;
+      setNotificationId(successId);
+      setSuccess(
+        'Inlägg skapat framgångsrikt! Du omdirigeras till startsidan om 3 sekunder.'
+      );
+
+      // Omdirigera till startsidan efter 3 sekunder för bättre UX
+      setTimeout(() => {
+        setSuccess('Omdirigerar till startsidan...');
+        setTimeout(() => {
+          router.push('/');
+          router.refresh();
+        }, 1000);
+      }, 3000);
     } catch (err) {
+      const errorId = `error-${Date.now()}`;
+      setNotificationId(errorId);
       setError(
         err instanceof Error
           ? err.message
@@ -105,18 +128,84 @@ export function CreatePostForm(): React.JSX.Element {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-6' noValidate>
-      {error && (
+      {/* Success Notification - WCAG Compliant */}
+      {success && (
         <div
-          className='p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg'
+          id={notificationId}
+          className='p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg shadow-sm'
           role='alert'
-          aria-live='polite'
+          aria-live='assertive'
+          aria-atomic='true'
+          aria-describedby={`${notificationId}-message`}
         >
-          <div className='flex items-center'>
+          <div className='flex items-start'>
             <svg
-              className='w-5 h-5 text-red-600 mr-2'
+              className='w-5 h-5 text-green-600 mr-3 mt-0.5 flex-shrink-0'
               fill='currentColor'
               viewBox='0 0 20 20'
               aria-hidden='true'
+              focusable='false'
+            >
+              <path
+                fillRule='evenodd'
+                d='M10 18a8 8 0 100-16 8 8 0 000 16zM9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                clipRule='evenodd'
+              />
+            </svg>
+            <div className='flex-1'>
+              <h3 className='text-sm font-semibold text-green-800 mb-1'>
+                Framgång
+              </h3>
+              <p
+                id={`${notificationId}-message`}
+                className='text-sm text-green-700'
+              >
+                {success}
+              </p>
+            </div>
+            <button
+              type='button'
+              onClick={() => {
+                setSuccess(null);
+                setNotificationId('');
+              }}
+              className='ml-3 text-green-600 hover:text-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 rounded-md'
+              aria-label='Stäng framgångsmeddelande'
+            >
+              <svg
+                className='w-4 h-4'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                aria-hidden='true'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Error Notification - WCAG Compliant */}
+      {error && (
+        <div
+          id={notificationId}
+          className='p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg shadow-sm'
+          role='alert'
+          aria-live='assertive'
+          aria-atomic='true'
+          aria-describedby={`${notificationId}-message`}
+        >
+          <div className='flex items-start'>
+            <svg
+              className='w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0'
+              fill='currentColor'
+              viewBox='0 0 20 20'
+              aria-hidden='true'
+              focusable='false'
             >
               <path
                 fillRule='evenodd'
@@ -124,7 +213,39 @@ export function CreatePostForm(): React.JSX.Element {
                 clipRule='evenodd'
               />
             </svg>
-            <span className='font-medium'>{error}</span>
+            <div className='flex-1'>
+              <h3 className='text-sm font-semibold text-red-800 mb-1'>
+                Fel uppstod
+              </h3>
+              <p
+                id={`${notificationId}-message`}
+                className='text-sm text-red-700'
+              >
+                {error}
+              </p>
+            </div>
+            <button
+              type='button'
+              onClick={() => {
+                setError(null);
+                setNotificationId('');
+              }}
+              className='ml-3 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-md'
+              aria-label='Stäng felmeddelande'
+            >
+              <svg
+                className='w-4 h-4'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                aria-hidden='true'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </button>
           </div>
         </div>
       )}
