@@ -3,6 +3,7 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { PageContainer, LoadingSpinner } from '@/components/ui';
 
 export default function MyPages(): React.JSX.Element {
@@ -58,7 +59,7 @@ export default function MyPages(): React.JSX.Element {
                 <p className='text-gray-600 mb-4'>
                   Du har inte skapat några inlägg än
                 </p>
-                <a
+                <Link
                   href='/posts/create'
                   className='inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50'
                 >
@@ -77,7 +78,7 @@ export default function MyPages(): React.JSX.Element {
                     />
                   </svg>
                   Skapa ditt första inlägg
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -167,7 +168,7 @@ export default function MyPages(): React.JSX.Element {
             Snabbåtgärder
           </h2>
           <div className='grid gap-4 md:grid-cols-3'>
-            <a
+            <Link
               href='/posts/create'
               className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50'
             >
@@ -191,9 +192,9 @@ export default function MyPages(): React.JSX.Element {
                   Dela dina tankar med samhället
                 </p>
               </div>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href='/'
               className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50'
             >
@@ -215,9 +216,9 @@ export default function MyPages(): React.JSX.Element {
                 <h3 className='font-medium text-gray-900'>Öppet samtal</h3>
                 <p className='text-sm text-gray-600'>Se alla diskussioner</p>
               </div>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href='/propositions'
               className='flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-opacity-50'
             >
@@ -239,7 +240,7 @@ export default function MyPages(): React.JSX.Element {
                 <h3 className='font-medium text-gray-900'>Förslag</h3>
                 <p className='text-sm text-gray-600'>Se alla förslag</p>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

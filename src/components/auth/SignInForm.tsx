@@ -90,7 +90,6 @@ export function SignInForm() {
             required
             placeholder='din@email.se'
             autoComplete='email'
-            error={error ? undefined : undefined}
             disabled={isLoading}
           />
 
@@ -103,7 +102,6 @@ export function SignInForm() {
             required
             placeholder='Ditt lösenord'
             autoComplete='current-password'
-            error={error ? undefined : undefined}
             disabled={isLoading}
           />
 

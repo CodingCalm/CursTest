@@ -20,7 +20,6 @@ export interface PostService {
   createPost(post: Omit<Post, 'id'>): Promise<Post>;
   updatePost(id: number, updates: Partial<Post>): Promise<Post>;
   deletePost(id: number): Promise<boolean>;
-  updateNominations(id: number, nominations: number): Promise<Post>;
 }
 
 // Forslag types and service interface

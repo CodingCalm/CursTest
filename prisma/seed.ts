@@ -47,8 +47,6 @@ async function main() {
           'En diskussion om de utmaningar som Stockholmspendlare möter dagligen med förseningar och inställda avgångar, och förslag på förbättringar av kollektivtrafiken.',
         authorId: testUser.id,
         upvotes: 342,
-        comments: 0,
-        nominations: 0,
       },
     }),
     prisma.post.create({
@@ -60,8 +58,6 @@ async function main() {
           'En kritisk diskussion om varför svensk sjukvård fortfarande använder pappersarbete istället för digitala system, och hur detta påverkar både patienter och vårdpersonal.',
         authorId: testUser.id,
         upvotes: 567,
-        comments: 0,
-        nominations: 0,
       },
     }),
     prisma.post.create({
@@ -73,8 +69,6 @@ async function main() {
           'En diskussion om medborgarlön som en potentiell lösning på framtidens arbetsmarknadsutmaningar med automatisering och AI.',
         authorId: testUser.id,
         upvotes: 789,
-        comments: 0,
-        nominations: 0,
       },
     }),
   ]);

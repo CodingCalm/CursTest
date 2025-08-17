@@ -18,7 +18,7 @@ export function ForslagCard({
   id,
   title,
   summary,
-  originalPostId,
+  originalPostId: _originalPostId,
 }: ForslagCardProps): React.JSX.Element {
   return (
     <article

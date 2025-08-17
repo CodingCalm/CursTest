@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 
-export function PageTitle(): React.JSX.Element {
+export function PageTitle(): React.JSX.Element | null {
   const pathname = usePathname();
 
   const getPageTitle = (): string | null => {

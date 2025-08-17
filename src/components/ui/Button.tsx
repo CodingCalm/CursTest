@@ -13,7 +13,7 @@ interface ButtonProps {
   'aria-pressed'?: boolean;
   'aria-expanded'?: boolean;
   'aria-controls'?: string;
-  [key: string]: any; // Allow other button props
+  [key: string]: unknown; // Allow other button props
 }
 
 export default function Button({

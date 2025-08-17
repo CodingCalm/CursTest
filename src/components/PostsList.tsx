@@ -9,16 +9,10 @@ export function PostsList({ posts }: { posts: Post[] }) {
   const { currentSort } = useSortingStore();
   const { getUpvotes } = useVotingStore();
 
-  if (!posts.length) {
-    return (
-      <div className='text-center py-8'>
-        <p className='text-gray-600'>Inga inlägg att visa</p>
-      </div>
-    );
-  }
-
   // Memoize sorted posts to avoid unnecessary re-sorting
   const sortedPosts = useMemo(() => {
+    if (!posts.length) return [];
+
     return [...posts].sort((a, b) => {
       switch (currentSort) {
         case 'newest':
@@ -42,6 +36,14 @@ export function PostsList({ posts }: { posts: Post[] }) {
       }
     });
   }, [posts, currentSort, getUpvotes]);
+
+  if (!posts.length) {
+    return (
+      <div className='text-center py-8'>
+        <p className='text-gray-600'>Inga inlägg att visa</p>
+      </div>
+    );
+  }
 
   return (
     <div

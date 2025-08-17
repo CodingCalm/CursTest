@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { Button } from '@/components/ui';
 
@@ -34,17 +35,17 @@ export const UserMenu = React.memo(function UserMenu() {
   /**
    * Get user initials for avatar
    */
-  const getUserInitials = (session: any): string => {
+  const getUserInitials = (session: Session | null): string => {
     return (
-      session.user?.name?.charAt(0) || session.user?.email?.charAt(0) || 'U'
+      session?.user?.name?.charAt(0) || session?.user?.email?.charAt(0) || 'U'
     );
   };
 
   /**
    * Get user display name
    */
-  const getUserDisplayName = (session: any): string => {
-    return session.user?.name || session.user?.email || 'Användare';
+  const getUserDisplayName = (session: Session | null): string => {
+    return session?.user?.name || session?.user?.email || 'Användare';
   };
 
   /**

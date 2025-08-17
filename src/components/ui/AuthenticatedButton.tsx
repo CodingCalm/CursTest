@@ -13,7 +13,7 @@ interface AuthenticatedButtonProps {
   'aria-label'?: string;
   'aria-pressed'?: boolean;
   onClick?: () => void;
-  [key: string]: any; // Allow other button props
+  [key: string]: unknown; // Allow other button props
 }
 
 export function AuthenticatedButton({

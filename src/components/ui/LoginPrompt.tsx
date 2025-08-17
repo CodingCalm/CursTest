@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 interface LoginPromptProps {
@@ -13,7 +13,7 @@ export function LoginPrompt({
   isOpen,
   onClose,
   action,
-}: LoginPromptProps): React.JSX.Element {
+}: LoginPromptProps): React.JSX.Element | null {
   if (!isOpen) return null;
 
   return (

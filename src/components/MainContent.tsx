@@ -1,13 +1,10 @@
 'use client';
 
-import React, { Suspense, useMemo } from 'react';
+import React, { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { PostCard } from '@/components';
 import { usePosts } from '@/hooks';
 import { SortButton, LoadingSpinner } from '@/components/ui';
-import { useSortingStore, useVotingStore } from '@/stores';
-import { type Post } from '@/types/post';
 
 // Lazy load PostsList component
 const PostsList = React.lazy(() =>

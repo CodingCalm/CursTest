@@ -34,9 +34,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <ErrorDisplay
-          title='Ett fel uppstod'
           message='Något gick fel. Försök att ladda om sidan.'
-          error={this.state.error?.message}
+          onRetry={() => window.location.reload()}
+          showBackButton={true}
         />
       );
     }

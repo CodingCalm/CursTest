@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Post } from '@/types';
 import { postService } from '@/services';
 
@@ -14,7 +14,7 @@ export function usePost(postId: number): UsePostReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -26,11 +26,11 @@ export function usePost(postId: number): UsePostReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, [postId]);
 
   useEffect(() => {
     fetchPost();
-  }, [postId]);
+  }, [fetchPost]);
 
   return {
     post,

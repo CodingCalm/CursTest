@@ -106,6 +106,9 @@ export class PrismaPostService implements PostService {
               name: true,
             },
           },
+          votes: true,
+          nominations: true,
+          comments: true,
         },
       });
 
@@ -116,8 +119,8 @@ export class PrismaPostService implements PostService {
         summary: post.summary,
         author: post.author.name,
         upvotes: post.upvotes,
-        comments: post.comments,
-        nominations: post.nominations,
+        comments: post.comments?.length || 0,
+        nominations: post.nominations?.length || 0,
         timeAgo: this.calculateTimeAgo(post.createdAt),
         created_at: post.createdAt.toISOString(),
         updated_at: post.updatedAt.toISOString(),
@@ -184,41 +187,8 @@ export class PrismaPostService implements PostService {
     }
   }
 
-  async updateNominations(id: number, nominations: number): Promise<Post> {
-    try {
-      const post = await prisma.post.update({
-        where: { id },
-        data: { nominations },
-        include: {
-          author: {
-            select: {
-              name: true,
-            },
-          },
-          votes: true,
-          nominations: true,
-          comments: true,
-        },
-      });
-
-      return {
-        id: post.id,
-        title: post.title,
-        content: post.content,
-        summary: post.summary,
-        author: post.author.name,
-        upvotes: post.upvotes,
-        comments: post.comments.length,
-        nominations: post.nominations.length,
-        timeAgo: this.calculateTimeAgo(post.createdAt),
-        created_at: post.createdAt.toISOString(),
-        updated_at: post.updatedAt.toISOString(),
-      };
-    } catch (error) {
-      console.error('Error updating nominations:', error);
-      throw new NotFoundError('Inlägg hittades inte');
-    }
-  }
+  // Note: updateNominations method removed as nominations is a relation, not a field
+  // To update nominations, you would need to create/delete Nomination records instead
 
   private calculateTimeAgo(date: Date): string {
     const now = new Date();

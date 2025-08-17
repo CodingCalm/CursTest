@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ExpandableSection } from '@/components/ui';
 import { mockForslag } from '@/data';
+import { Forslag } from '@/types/post';
 
 interface RelatedPropositionsProps {
   postId: number;
@@ -40,7 +41,7 @@ export function RelatedPropositions({
 function RelatedPropositionCard({
   proposition,
 }: {
-  proposition: any;
+  proposition: Forslag;
 }): React.JSX.Element {
   return (
     <Link

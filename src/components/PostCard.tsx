@@ -5,7 +5,7 @@ import { Post } from '@/types';
 import { VotingSection } from './VotingSection';
 import { PostMetadata, PostTitle, PostContent, PostActions } from './post';
 
-interface PostCardProps extends Post {}
+type PostCardProps = Post;
 
 const PostCard = React.memo(function PostCard({
   id,

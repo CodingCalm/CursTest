@@ -13,7 +13,7 @@ interface SortingState {
   getSortLabel: (sort: SortOption) => string;
 }
 
-export const useSortingStore = create<SortingState>((set, get) => ({
+export const useSortingStore = create<SortingState>(set => ({
   currentSort: 'newest',
 
   setSort: (sort: SortOption) => {

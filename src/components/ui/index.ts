@@ -15,6 +15,5 @@ export { PageContainer } from './PageContainer';
 export { SortButton } from './SortButton';
 export { LoginPrompt } from './LoginPrompt';
 export { VotingBar } from './VotingBar';
-
 // Error Handling
 export { ErrorBoundary } from './ErrorBoundary';

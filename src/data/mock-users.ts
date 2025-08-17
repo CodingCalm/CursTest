@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { User, UserRole } from '@/types/user';
+import { User } from '@/types/user';
 
 export interface MockUser extends User {
   password: string;

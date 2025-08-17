@@ -61,7 +61,7 @@ export class MockForslagService implements ForslagService {
     }
 
     // Don't allow updating the ID
-    const { id: _, ...safeUpdates } = updates;
+    const { id: _id, ...safeUpdates } = updates;
 
     // Ensure arguments array is properly copied if updated
     if (safeUpdates.arguments) {

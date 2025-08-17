@@ -8,8 +8,8 @@ interface PostActionsProps {
 }
 
 export function PostActions({
-  comments,
-  variant = 'card',
+  comments: _comments,
+  variant: _variant = 'card',
 }: PostActionsProps): React.JSX.Element {
   // Currently returns empty fragment as per user requirements
   // This component can be extended in the future for additional actions

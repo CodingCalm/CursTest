@@ -28,7 +28,7 @@ if (!authConfig.validate()) {
   throw new Error('NextAuth configuration is invalid');
 }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const handler = NextAuth({
   providers: [
     Credentials({
       name: 'Credentials',
@@ -107,7 +107,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: '/auth/error',
   },
   events: {
-    async signIn({ user }) {
+    async signIn() {
       // Silent sign-in event
     },
     async signOut() {
@@ -116,4 +116,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 });
 
-export const { GET, POST } = handlers;
+export { handler as GET, handler as POST };

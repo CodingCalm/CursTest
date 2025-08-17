@@ -1,4 +1,4 @@
-import { User, UserProfile } from '@/types/user';
+import { UserProfile } from '@/types/user';
 import { findUserByEmail, verifyPassword } from '@/data/mock-users';
 
 export interface AuthenticationResult {

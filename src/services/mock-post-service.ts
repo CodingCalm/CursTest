@@ -72,13 +72,7 @@ export class MockPostService implements PostService {
     return true;
   }
 
-  async updateNominations(id: number, nominations: number): Promise<Post> {
-    if (nominations < 0) {
-      throw new Error('Nominations cannot be negative');
-    }
-
-    return this.updatePost(id, { nominations });
-  }
+  // Note: updateNominations method removed as it's not part of the PostService interface
 
   // Helper methods
   private generateNextId(): number {
