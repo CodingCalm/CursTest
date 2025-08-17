@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Post } from '@/types';
-import { postService } from '@/services';
 
 interface UsePostReturn {
   post: Post | null;
@@ -18,7 +17,24 @@ export function usePost(postId: number): UsePostReturn {
     try {
       setLoading(true);
       setError(null);
-      const fetchedPost = await postService.getPostById(postId);
+
+      console.log('🔄 Fetching post from API:', postId);
+
+      const response = await fetch(`/api/posts/${postId}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          setError('Inlägg hittades inte');
+        } else {
+          throw new Error('Failed to fetch post');
+        }
+        return;
+      }
+
+      const data = await response.json();
+      const fetchedPost = data.post;
+
+      console.log('📊 Fetched post from API:', fetchedPost);
+
       setPost(fetchedPost);
     } catch (err) {
       setError('Kunde inte ladda inlägg');

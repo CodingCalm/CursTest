@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ExpandableSection } from '@/components/ui';
-import { mockForslag } from '@/data';
+import { ExpandableSection, LoadingSpinner } from '@/components/ui';
 import { Forslag } from '@/types/post';
 
 interface RelatedPropositionsProps {
@@ -13,9 +12,59 @@ interface RelatedPropositionsProps {
 export function RelatedPropositions({
   postId,
 }: RelatedPropositionsProps): React.JSX.Element {
-  const relatedPropositions = mockForslag.filter(
-    forslag => forslag.originalPostId === postId
-  );
+  const [relatedPropositions, setRelatedPropositions] = useState<Forslag[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRelatedPropositions = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        console.log('🔄 Fetching related propositions for post:', postId);
+
+        const response = await fetch(`/api/forslag?postId=${postId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch related propositions');
+        }
+
+        const data = await response.json();
+        const forslag = data.forslag || [];
+
+        console.log('📊 Fetched related propositions:', forslag.length);
+
+        setRelatedPropositions(forslag);
+      } catch (err) {
+        setError('Kunde inte ladda relaterade förslag');
+        console.error('Error loading related propositions:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRelatedPropositions();
+  }, [postId]);
+
+  if (loading) {
+    return (
+      <ExpandableSection title='Relaterade förslag' count={0}>
+        <div className='flex justify-center py-4'>
+          <LoadingSpinner message='Laddar förslag...' />
+        </div>
+      </ExpandableSection>
+    );
+  }
+
+  if (error) {
+    return (
+      <ExpandableSection title='Relaterade förslag' count={0}>
+        <div className='text-center py-4 text-red-600'>
+          <p>{error}</p>
+        </div>
+      </ExpandableSection>
+    );
+  }
 
   if (relatedPropositions.length === 0) {
     return <></>;

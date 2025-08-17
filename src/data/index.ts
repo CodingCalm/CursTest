@@ -1,5 +1,2 @@
 // Data exports
-// This file exports mock data for development and testing
-
-export { mockPostsData } from './mock-posts';
-export { mockForslagData, mockForslag } from './mock-forslag';
+// This file is now empty since we only use database data

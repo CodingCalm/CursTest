@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { mockForslag } from '@/data';
 import { type Forslag } from '@/types/post';
 import { PostCard } from '@/components';
-import { VotingBar } from '@/components/ui';
+import { VotingBar, LoadingSpinner } from '@/components/ui';
 import { usePosts } from '@/hooks';
 
 interface ForslagPageProps {
@@ -20,14 +19,64 @@ export default function ForslagPage({
 }: ForslagPageProps): React.JSX.Element {
   const resolvedParams = React.use(params);
   const forslagId = parseInt(resolvedParams.id);
+  const [forslag, setForslag] = useState<Forslag | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchForslag = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        console.log('🔄 Fetching forslag from API:', forslagId);
+
+        const response = await fetch(`/api/forslag/${forslagId}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Förslag hittades inte');
+          } else {
+            throw new Error('Failed to fetch forslag');
+          }
+          return;
+        }
+
+        const data = await response.json();
+        const fetchedForslag = data.forslag;
+
+        console.log('📊 Fetched forslag from API:', fetchedForslag);
+
+        setForslag(fetchedForslag);
+      } catch (err) {
+        setError('Kunde inte ladda förslag');
+        console.error('Error loading forslag:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!isNaN(forslagId)) {
+      fetchForslag();
+    }
+  }, [forslagId]);
 
   if (isNaN(forslagId)) {
     notFound();
   }
 
-  const forslag = mockForslag.find(p => p.id === forslagId);
+  if (loading) {
+    return (
+      <div className='bg-gray-50 min-h-screen flex justify-center items-start pt-8 pb-8'>
+        <div className='w-full max-w-2xl px-4'>
+          <div className='text-center py-8'>
+            <LoadingSpinner message='Laddar förslag...' />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  if (!forslag) {
+  if (error || !forslag) {
     notFound();
   }
 

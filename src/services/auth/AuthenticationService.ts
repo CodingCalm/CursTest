@@ -1,5 +1,6 @@
 import { UserProfile } from '@/types/user';
-import { findUserByEmail, verifyPassword } from '@/data/mock-users';
+// Note: This service is now primarily for utility functions
+// Authentication is handled by NextAuth with database
 
 export interface AuthenticationResult {
   success: boolean;
@@ -17,70 +18,21 @@ export class AuthenticationService {
    * Authenticates a user with email and password
    * @param credentials - User credentials
    * @returns AuthenticationResult with success status and user data or error
+   *
+   * Note: This method is deprecated. Authentication is now handled by NextAuth.
+   * This method is kept for backward compatibility but always returns an error.
    */
   public async authenticateUser(
     credentials: Credentials
   ): Promise<AuthenticationResult> {
-    try {
-      // Validate input
-      if (!this.isValidCredentials(credentials)) {
-        console.warn('AuthenticationService: Invalid credentials provided');
-        return {
-          success: false,
-          error: 'Ogiltiga inloggningsuppgifter',
-        };
-      }
-
-      // Sanitize inputs
-      const sanitizedEmail = this.sanitizeInput(credentials.email);
-
-      // Find user by email
-      const user = findUserByEmail(sanitizedEmail);
-      if (!user) {
-        console.warn(
-          `AuthenticationService: User not found for email: ${sanitizedEmail}`
-        );
-        return {
-          success: false,
-          error: 'Användare hittades inte',
-        };
-      }
-
-      // Verify password
-      const isPasswordValid = await verifyPassword(
-        credentials.password,
-        user.password
-      );
-      if (!isPasswordValid) {
-        console.warn(
-          `AuthenticationService: Invalid password for user: ${sanitizedEmail}`
-        );
-        return {
-          success: false,
-          error: 'Felaktigt lösenord',
-        };
-      }
-
-      // Return successful authentication
-      console.log(
-        `AuthenticationService: Successful authentication for user: ${sanitizedEmail}`
-      );
-      return {
-        success: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        },
-      };
-    } catch (error) {
-      console.error('AuthenticationService: Authentication error:', error);
-      return {
-        success: false,
-        error: this.createErrorMessage(error),
-      };
-    }
+    console.warn(
+      'AuthenticationService.authenticateUser is deprecated. Use NextAuth instead.'
+    );
+    return {
+      success: false,
+      error:
+        'Autentisering hanteras nu av NextAuth. Använd signIn från next-auth/react istället.',
+    };
   }
 
   /**

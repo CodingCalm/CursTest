@@ -1,7 +1,7 @@
-import { Forslag, ForslagService } from '@/types/post';
-import { mockForslagData } from '@/data/mock-forslag';
+import { Forslag, ForslagService } from '../src/types/post';
+import { mockForslagData } from './mock-forslag';
 
-// Mock implementation for forslag - replace with SQL service later
+// Mock implementation - for backup purposes only
 export class MockForslagService implements ForslagService {
   private forslag: Forslag[] = [...mockForslagData];
 
@@ -18,9 +18,10 @@ export class MockForslagService implements ForslagService {
 
   async getForslagByPostId(postId: number): Promise<Forslag[]> {
     await this.simulateDelay();
-    return this.forslag
-      .filter(f => f.originalPostId === postId)
-      .map(f => ({ ...f }));
+    const relatedForslag = this.forslag.filter(
+      f => f.originalPostId === postId
+    );
+    return relatedForslag.map(f => ({ ...f }));
   }
 
   async createForslag(forslagData: Omit<Forslag, 'id'>): Promise<Forslag> {
@@ -43,9 +44,6 @@ export class MockForslagService implements ForslagService {
     const newForslag: Forslag = {
       ...forslagData,
       id: this.generateNextId(),
-      arguments: [...forslagData.arguments], // Ensure array is copied
-      created_at: forslagData.created_at || new Date().toISOString(),
-      updated_at: forslagData.updated_at || new Date().toISOString(),
     };
 
     this.forslag.push(newForslag);
@@ -61,18 +59,9 @@ export class MockForslagService implements ForslagService {
     }
 
     // Don't allow updating the ID
-    const { id: _id, ...safeUpdates } = updates;
+    const { id: _, ...safeUpdates } = updates;
 
-    // Ensure arguments array is properly copied if updated
-    if (safeUpdates.arguments) {
-      safeUpdates.arguments = [...safeUpdates.arguments];
-    }
-
-    this.forslag[index] = {
-      ...this.forslag[index],
-      ...safeUpdates,
-      updated_at: new Date().toISOString(),
-    };
+    this.forslag[index] = { ...this.forslag[index], ...safeUpdates };
     return { ...this.forslag[index] };
   }
 

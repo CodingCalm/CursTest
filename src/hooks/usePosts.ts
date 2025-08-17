@@ -23,8 +23,9 @@ export function usePosts(): UsePostsReturn {
       setLoading(true);
       setError(null);
 
-      // Clear cache temporarily to force fresh data
+      // Clear cache to force fresh data from database
       postsCache = null;
+      cacheTimestamp = 0;
 
       // Check cache first
       const now = Date.now();
@@ -47,6 +48,10 @@ export function usePosts(): UsePostsReturn {
       const fetchedPosts = data.posts;
 
       console.log('📊 Fetched posts from API:', fetchedPosts.length, 'posts');
+      console.log(
+        '📊 All post IDs:',
+        fetchedPosts.map(p => p.id)
+      );
       console.log('📊 First post:', fetchedPosts[0]);
 
       // Update cache

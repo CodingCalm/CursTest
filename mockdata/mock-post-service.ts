@@ -1,7 +1,7 @@
-import { Post, PostService } from '@/types/post';
-import { mockPostsData } from '@/data/mock-posts';
+import { Post, PostService } from '../src/types/post';
+import { mockPostsData } from './mock-posts';
 
-// Mock implementation - replace with SQL service later
+// Mock implementation - for backup purposes only
 export class MockPostService implements PostService {
   private posts: Post[] = [...mockPostsData];
 
@@ -71,8 +71,6 @@ export class MockPostService implements PostService {
     this.posts.splice(index, 1);
     return true;
   }
-
-  // Note: updateNominations method removed as it's not part of the PostService interface
 
   // Helper methods
   private generateNextId(): number {
